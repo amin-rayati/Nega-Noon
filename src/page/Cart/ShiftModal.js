@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie'
 export const ShiftModal = (categoryId, dayId) => {
   const [shifts, setShifts] = useState({ catname: '', shifts: [] })
   const [loadingShifts, setLoadingShifts] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [cookiesCityid, setCookieCityid, removeCookieCityid] = useCookies([
     'cityid',
   ])
@@ -18,16 +19,23 @@ export const ShiftModal = (categoryId, dayId) => {
     closeModal,
     selectedShift,
     setSelectedShift,
+    shiftModalOpen,
+    shiftModalClose,
+    idOfDay,
+    setIdOfDay,
   } = useProjectContext()
-  const getShifts = (categoryId, dayId) => {
+  const getShifts = (categoryId) => {
+    setLoading(true)
     let body = {}
     body[categoryId['categoryId']] = categoryId['dayId']
+
     axios
       .post(
         'https://meyt.neganoon.ir/admin/SendingTimes/API/_SendingTimes?token=test',
         {
           cityId: parseInt(cookiesCityid['cityid']),
-          categoryId: body,
+          categoryId: categoryId['categoryId'],
+          dayId: categoryId['dayId'],
         },
         {
           headers: {
@@ -38,6 +46,7 @@ export const ShiftModal = (categoryId, dayId) => {
       .then((response) => {
         if (response.data.isDone) {
           setShifts(response.data.data[0])
+          setLoading(false)
         }
       })
       .catch((error) => {
@@ -49,16 +58,16 @@ export const ShiftModal = (categoryId, dayId) => {
     getShifts(categoryId, dayId)
   }, [showModal])
 
-  const selectShift = (shift) => {
+  const selectShift = (shift, DAYID) => {
     setSelectedShift((oldValue) => {
-      oldValue[categoryId['categoryId']] = shift
+      oldValue[categoryId['categoryId']] = { shift, DAYID }
       return oldValue
     })
     setShowModal(false)
   }
 
   return (
-    <Modal show={showModal} onHide={closeModal} size='md'>
+    <Modal show={showModal} onHide={shiftModalClose} size='md'>
       <Modal.Body>
         {!loadingShifts && shifts ? (
           <>
@@ -82,11 +91,13 @@ export const ShiftModal = (categoryId, dayId) => {
               </div>
             </Modal.Title>
             <div className='col-10 mt-3' style={{ margin: 'auto' }}>
-              {shifts ? (
+              {shifts['shifts'].length > 0 ? (
                 shifts['shifts'].map((e) => {
                   return (
                     <div
-                      onClick={() => selectShift(e)}
+                      onClick={() => {
+                        selectShift(e, shifts['dayId'])
+                      }}
                       className='mt-3'
                       style={{
                         cursor: 'pointer',
@@ -110,7 +121,15 @@ export const ShiftModal = (categoryId, dayId) => {
                   )
                 })
               ) : (
-                <Loading />
+                <>
+                  {loading ? (
+                    <Loading />
+                  ) : (
+                    <div style={{ textAlign: 'center', marginTop: '30px' }}>
+                      <span>در حال حاضر شیفتی برای این محصول وجود ندارد</span>
+                    </div>
+                  )}
+                </>
               )}
             </div>
             <div style={{ textAlign: 'center' }}>

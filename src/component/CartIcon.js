@@ -48,10 +48,10 @@ const CartIcon = () => {
                 style={{
                   position: 'absolute',
                   top: '20px',
-                  left: '70px',
+                  left: '73px',
                 }}
               >
-                {Math.round(totalCount)}
+                {Math.floor(totalCount)}
               </span>
             </div>
           </div>

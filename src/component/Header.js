@@ -24,12 +24,10 @@ const Header = () => {
   const [cookiesCityid, setCookieCityid, removeCookieCityid] = useCookies([
     'cityid',
   ])
-
   const downloadAndroid = () => {
     const url = 'https://new.neganoon.ir/app/apk/v2/neganoon.apk'
     window.open(url, '_blank')
   }
-
   const [cookies, setCookie, removeCookie] = useCookies(['user'])
 
   const { pathname } = useLocation()

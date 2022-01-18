@@ -15,7 +15,7 @@ import { logDOM } from '@testing-library/dom'
 import CartIcon from '../../component/CartIcon'
 import Breadcrump from '../../component/BreadCrump/BreadCrumpDashboard'
 import { Helmet } from 'react-helmet'
-
+import Fade from '@mui/material/Fade'
 const Favourite = () => {
   const { pathname } = useLocation()
   const activeCat = pathname.split('/')[2]

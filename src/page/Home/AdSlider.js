@@ -84,7 +84,8 @@ export default function Carousel() {
               <div
                 key={e.sliderId}
                 // className='px-0'
-                style={{ height: '510px !important' }}
+                style={{ height: '510px !important', marginTop: '85px' }}
+                className=' mx-auto Adslider'
               >
                 <div className=''>
                   <img

@@ -20,6 +20,7 @@ const zoom = 12
 function DisplayPosition({ map }) {
   const { customerPosition, setCustomerPosition, mapModal, MapModalOpen } =
     useProjectContext()
+
   const [position, setPosition] = useState(map.getCenter())
   const onMove = useCallback(() => {
     setPosition(map.getCenter())

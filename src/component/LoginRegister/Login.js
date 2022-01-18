@@ -1,13 +1,15 @@
 import { useState, useCallback, useEffect } from 'react'
-import { Modal } from 'react-bootstrap'
+import { Modal, ThemeProvider } from 'react-bootstrap'
 import { useProjectContext } from '../../context/ProjectProvider'
 import { ImCross } from 'react-icons/im'
 import axios from 'axios'
-import Loading from '../Loading/Loading'
+import Loading from '../Loading/LoginLoading'
 import Swal from 'sweetalert2'
 import { Button } from 'react-bootstrap'
 import { Cookies, useCookies } from 'react-cookie'
-
+import Grow from '@mui/material/Grow'
+import TextField from '@mui/material/TextField'
+import { makeStyles } from '@material-ui/core/styles'
 const mobileUrl =
   'https://meyt.neganoon.ir/admin/Customers/API/_startLoginRegister?token=test'
 
@@ -85,14 +87,15 @@ const Login = () => {
   const handleLnameChange = (e) => {
     setLastName(e.target.value)
   }
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+  }
   const handleLRefererChange = (e) => {
     setReferer(e.target.value)
   }
-
   const handleGenderChange = (e) => {
     setGender(e.target.value)
   }
-
   const validateMobilephone = (input) => {
     let mobile = /^09{1}[\d]{9}$/
     if (mobile.test(input)) {
@@ -106,7 +109,6 @@ const Login = () => {
       return false
     }
   }
-
   const handleCountDown = useCallback(() => {
     if (seconds > 0) {
       setTimeout(() => setSeconds(seconds - 1), 1000)
@@ -118,19 +120,15 @@ const Login = () => {
       }, 4000)
     }
   }, [seconds])
-
   const foregtpass = (e) => {
     e.preventDefault()
     setBtnLogin(false)
     setIsPass(false)
     setbtnsetpass(false)
-
     setbtncode1(true)
     handleCountDown()
-
     setCountdown(true)
     setinputcode1(true)
-
     e.preventDefault()
 
     axios
@@ -151,7 +149,6 @@ const Login = () => {
         console.error(error)
       })
   }
-
   const resendCode = (e) => {
     e.preventDefault()
     setLoading1(true)
@@ -159,7 +156,7 @@ const Login = () => {
       setCountdown(true)
       setresendcode(false)
       setSeconds(30)
-    }, 2000)
+    }, 1000)
 
     e.preventDefault()
     validateMobilephone(phone)
@@ -196,7 +193,6 @@ const Login = () => {
         console.error(error)
       })
   }
-
   const sendCode1 = (e) => {
     e.preventDefault()
     setLoading(true)
@@ -226,19 +222,29 @@ const Login = () => {
 
         .then((response) => {
           if (response.data.isDone === true) {
-            getIndividualInfo(e)
-            setLoading(false)
             Swal.fire({
               type: 'success',
-              text: 'به نگانون خوش آمدید',
-              confirmButtonText: 'فهمیدم',
+              text: 'کد درست است ',
             })
-            loginModalClose()
-            setLoading(false)
+            setCountdown(false)
+            setinputcode1(false)
+            setsetnewpass(true)
+            setbtnnewpass(true)
+            setbtncode1(false)
+            setresendcode(false)
+            // getIndividualInfo(e)
+            // setLoading(false)
+            // Swal.fire({
+            //   type: 'success',
+            //   text: 'به نگانون خوش آمدید',
+            //   confirmButtonText: 'فهمیدم',
+            // })
+            // loginModalClose()
+            // setLoading(false)
           } else {
             Swal.fire({
               type: 'error',
-              text: response.data.data['message'],
+              text: response.data.data,
               confirmButtonText: 'فهمیدم',
             })
           }
@@ -250,7 +256,60 @@ const Login = () => {
         })
     }
   }
+  const handleKeyDownSendCode1 = (event) => {
+    if (event.key === 'Enter') {
+      sendCode1(event)
+    }
+  }
+  const setNewpassword = (e) => {
+    e.preventDefault()
+    setLoading(true)
+    if (newpass1 === '') {
+      Swal.fire({
+        type: 'error',
+        text: 'تمام فیلد ها پر شود',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setLoading(false)
+        }
+      })
+    } else {
+      axios
+        .post(
+          'https://meyt.neganoon.ir/admin/Customers/API/_setPassword?token=test',
+          {
+            mobile: phone,
+            password: newpass1,
+          },
+          {
+            headers: {
+              token: 'test',
+            },
+          }
+        )
 
+        .then((response) => {
+          if (response.data.isDone === true) {
+            getIndividualInfo(e)
+            Swal.fire({
+              type: 'success',
+              text: ' به نگانون خوش آمدید, رمز جدید با موفقیت ثبت شد',
+            })
+            getIndividualInfo(e)
+          }
+
+          setLoading(false)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  }
+  const handleKeyDownSetNewpassword = (event) => {
+    if (event.key === 'Enter') {
+      setNewpassword(event)
+    }
+  }
   const sendMobile = (e) => {
     e.preventDefault()
     validateMobilephone(phone)
@@ -295,7 +354,11 @@ const Login = () => {
         console.error(error)
       })
   }
-
+  const handleKeyDownSendMobile = (event) => {
+    if (event.key === 'Enter') {
+      sendMobile(event)
+    }
+  }
   const sendCode = (e) => {
     e.preventDefault()
     setLoading(true)
@@ -353,11 +416,15 @@ const Login = () => {
         })
     }
   }
-
+  const handleKeyDownSendCode = (event) => {
+    if (event.key === 'Enter') {
+      sendCode(event)
+    }
+  }
   const Register = (e) => {
     e.preventDefault()
     setLoading(true)
-    if (name === '' || lastName === '' || gender === '') {
+    if (name === '' || lastName === '' || gender === '' || password === '') {
       Swal.fire({
         type: 'error',
         text: 'تمام فیلد ها پر شود',
@@ -376,6 +443,7 @@ const Login = () => {
             mobile: phone,
             referrer: Referer,
             gender: gender,
+            password: password,
             // code: code,
           },
           {
@@ -386,28 +454,20 @@ const Login = () => {
         )
         .then((response) => {
           if (response.data.isDone) {
-            if (response.data.data === 'کد معرف نامعتبر') {
-              Swal.fire({
-                type: 'error',
-                text: 'کد  معرف شما اشتباه است',
-                confirmButtonText: 'فهمیدم',
-              })
-            } else {
-              Swal.fire({
-                type: 'success',
-                text: 'به نگانون خوش آمدید',
-                confirmButtonText: 'فهمیدم',
-              })
-              getIndividualInfo(e)
-              setIsCodeSent(true)
-              setLoading(false)
-              RegisterClose()
-              loginModalClose()
-            }
+            Swal.fire({
+              type: 'success',
+              text: 'به نگانون خوش آمدید',
+              confirmButtonText: 'فهمیدم',
+            })
+            getIndividualInfo(e)
+            setIsCodeSent(true)
+            setLoading(false)
+            RegisterClose()
+            loginModalClose()
           } else {
             Swal.fire({
               type: 'error',
-              text: 'دوباره تلاش کنید',
+              text: 'کد معرف نامعتبر',
               confirmButtonText: 'فهمیدم',
             })
           }
@@ -418,7 +478,11 @@ const Login = () => {
         })
     }
   }
-
+  const handleKeyDownRegister = (event) => {
+    if (event.key === 'Enter') {
+      Register(event)
+    }
+  }
   const sendPass = (e) => {
     e.preventDefault()
     setLoading(true)
@@ -463,7 +527,7 @@ const Login = () => {
           } else {
             Swal.fire({
               type: 'error',
-              text: response.data.data['message'],
+              text: response.data.data,
               confirmButtonText: 'فهمیدم',
             })
           }
@@ -473,7 +537,11 @@ const Login = () => {
         })
     }
   }
-
+  const handleKeyDownSendPass = (event) => {
+    if (event.key === 'Enter') {
+      sendPass(event)
+    }
+  }
   const getIndividualInfo = (e) => {
     e.preventDefault()
     axios
@@ -497,7 +565,6 @@ const Login = () => {
         console.error(error)
       })
   }
-
   useEffect(() => {
     if (isCodeSent) {
       const timerID = setInterval(() => handleCountDown(), 1000)
@@ -508,6 +575,7 @@ const Login = () => {
       return () => clearInterval(timerID)
     }
   }, [handleCountDown, isCodeSent, inputcode1])
+
   return (
     <>
       <Modal show={loginModal} onHide={loginModalClose}>
@@ -517,138 +585,161 @@ const Login = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div style={{ textAlign: 'right' }}>
-            <label>
-              <h6 style={{ color: '#0000006b' }}>شماره موبایل</h6>
-            </label>
-          </div>
-          <div className='row mx-0 mt-2'>
-            <input
-              onChange={handlePhoneChange}
-              value={phone}
-              required
-              className=' select'
-              pattern='[0-9]{5}[-][0-9]{7}[-][0-9]{1}'
-              type='text'
-              title='Ten digits code'
-              style={{
-                textAlign: 'right',
-                borderRadius: '0.45rem',
-                border: '1px solid #0000004f',
-                height: '30px',
-                width: '100%',
-                outline: 'none',
-                background: 'white',
-              }}
-            />
-          </div>
+          <Grow
+            in={loginModal}
+            timeout={500}
+            style={{ transformOrigin: '0 0 0' }}
+          >
+            <div className='row mx-0 mt-2'>
+              <input
+                onChange={handlePhoneChange}
+                onKeyDown={handleKeyDownSendMobile}
+                value={phone}
+                required
+                className=' select'
+                pattern='[0-9]{5}[-][0-9]{7}[-][0-9]{1}'
+                type='text'
+                title='Ten digits code'
+                placeHolder='شماره موبایل'
+                style={{
+                  textAlign: 'right',
+                  borderRadius: '0.45rem',
+                  border: '1px solid #0000004f',
+                  height: '40px',
+                  width: '100%',
+                  outline: 'none',
+                  background: 'white',
+                }}
+              />
+            </div>
+          </Grow>
 
           {isCodeSent ? (
             <>
-              <div className='mt-5' style={{ textAlign: 'right' }}>
-                <label>
-                  <h6 style={{ color: '#0000006b' }}>کد تایید</h6>
-                </label>
-              </div>
-              <div className='row mx-0 '>
-                <input
-                  onChange={handleCodeChange}
-                  value={code}
-                  required
-                  className=' select'
-                  type='text'
-                  title='Ten digits code'
-                  style={{
-                    borderRadius: '0.45rem',
-                    border: '1px solid #0000004f',
-                    height: '30px',
-                    width: '100%',
-                    outline: 'none',
-                    background: 'white',
-                    textAlign: 'right',
-                  }}
-                />
-              </div>
+              <Grow
+                in={isCodeSent}
+                timeout={500}
+                style={{ transformOrigin: '0 0 0' }}
+              >
+                <div className='row mx-0 mt-5'>
+                  <input
+                    onChange={handleCodeChange}
+                    onKeyDown={handleKeyDownSendCode}
+                    value={code}
+                    required
+                    className=' select'
+                    type='text'
+                    title='Ten digits code'
+                    placeHolder='کد تایید'
+                    style={{
+                      borderRadius: '0.45rem',
+                      border: '1px solid #0000004f',
+                      height: '40px',
+                      width: '100%',
+                      outline: 'none',
+                      background: 'white',
+                      textAlign: 'right',
+                    }}
+                  />
+                </div>
+              </Grow>
             </>
           ) : null}
+
           {ispass ? (
             <>
-              <div className='mt-5' style={{ textAlign: 'right' }}>
-                <label>
-                  <h6 style={{ color: '#0000006b' }}>رمز عبور</h6>
-                </label>
-              </div>
-              <div className='row mx-0 '>
-                <input
-                  onChange={handleCodeChange}
-                  value={code}
-                  required
-                  className=' select'
-                  type='password'
-                  title='Ten digits code'
-                  style={{
-                    borderRadius: '0.45rem',
-                    border: '1px solid #0000004f',
-                    height: '30px',
-                    outline: 'none',
-                    width: '100%',
-                    background: 'white',
-                    textAlign: 'right',
-                  }}
-                />
-              </div>
+              <Grow
+                in={ispass}
+                timeout={500}
+                style={{ transformOrigin: '0 0 0' }}
+              >
+                <div className='row mx-0 mt-5'>
+                  <input
+                    onChange={handleCodeChange}
+                    onKeyDown={handleKeyDownSendPass}
+                    value={code}
+                    required
+                    className=' select'
+                    type='password'
+                    title='Ten digits code'
+                    placeHolder='رمز عبور'
+                    style={{
+                      borderRadius: '0.45rem',
+                      border: '1px solid #0000004f',
+                      height: '40px',
+                      outline: 'none',
+                      width: '100%',
+                      background: 'white',
+                      textAlign: 'right',
+                    }}
+                  />
+                </div>
+              </Grow>
             </>
           ) : null}
 
           {inputcode1 ? (
             <>
-              <div className='mt-5' style={{ textAlign: 'right' }}>
-                <label>
-                  <h6 style={{ color: '#0000006b' }}>کد تایید</h6>
-                </label>
-              </div>
-              <div className='row mx-0 '>
-                <input
-                  onChange={handleCodeChange}
-                  value={code}
-                  required
-                  className=' select'
-                  type='text'
-                  title='Ten digits code'
-                  style={{
-                    borderRadius: '0.45rem',
-                    border: '1px solid #0000004f',
-                    height: '30px',
-                    width: '100%',
-                    outline: 'none',
-                    background: 'white',
-                    textAlign: 'right',
-                  }}
-                />
-              </div>
+              <Grow
+                in={inputcode1}
+                timeout={500}
+                style={{ transformOrigin: '0 0 0' }}
+              >
+                <div className='row mx-0 mt-5'>
+                  <input
+                    onChange={handleCodeChange}
+                    onKeyDown={handleKeyDownSendCode1}
+                    value={code}
+                    required
+                    className=' select'
+                    type='text'
+                    title='Ten digits code'
+                    placeHolder='کد تایید'
+                    style={{
+                      borderRadius: '0.45rem',
+                      border: '1px solid #0000004f',
+                      height: '40px',
+                      width: '100%',
+                      outline: 'none',
+                      background: 'white',
+                      textAlign: 'right',
+                    }}
+                  />
+                </div>
+              </Grow>
             </>
           ) : null}
 
           {setnewpass ? (
-            <div className='row mx-0 mt-5'>
-              <input
-                onChange={handleNewPassChange}
-                value={newpass1}
-                required
-                className=' select'
-                type='text'
-                title='Ten digits code'
-                style={{
-                  borderRadius: '0.45rem',
-                  border: '1px solid #0000004f',
-                  height: '30px',
-                  width: '100%',
-                  outline: 'none',
-                  background: 'white',
-                  textAlign: 'right',
-                }}
-              />
-            </div>
+            <>
+              <Grow
+                in={setnewpass}
+                timeout={500}
+                style={{ transformOrigin: '0 0 0' }}
+              >
+                <div className='row mx-0 mt-5'>
+                  <input
+                    onChange={handleNewPassChange}
+                    onKeyDown={handleKeyDownSetNewpassword}
+                    value={newpass1}
+                    required
+                    className=' select'
+                    type='password'
+                    title='Ten digits code'
+                    placeHolder='رمز عبور جدید'
+                    style={{
+                      borderRadius: '0.45rem',
+                      border: '1px solid #0000004f',
+                      height: '40px',
+                      width: '100%',
+                      outline: 'none',
+                      background: 'white',
+                      textAlign: 'right',
+                    }}
+                  />
+                </div>
+              </Grow>
+            </>
           ) : null}
 
           <div className='d-flex justify-content-between mt-4'>
@@ -732,6 +823,16 @@ const Login = () => {
               {!loading ? 'ورود/ثبت نام' : <Loading />}
             </Button>
           ) : null}
+
+          {btnnewpass ? (
+            <Button
+              variant=' my-3 mr-3 '
+              className='login-btn px-3 hover-item p-2'
+              onClick={setNewpassword}
+            >
+              {!loading ? 'ورود/ثبت نام' : <Loading />}
+            </Button>
+          ) : null}
         </Modal.Footer>
       </Modal>
       <Modal show={registerModal} onHide={RegisterClose}>
@@ -739,112 +840,162 @@ const Login = () => {
           <Modal.Title>ثبت نام</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ direction: 'rtl', textAlign: 'right' }}>
-          <div className='row mx-0'>
-            <div className='col-3 my-auto'>
-              <label>نام :</label>
+          <Grow
+            in={registerModal}
+            timeout={500}
+            style={{ transformOrigin: '0 0 0' }}
+          >
+            <div className='row mx-0 '>
+              <input
+                onChange={handleNameChange}
+                value={name}
+                required
+                className='col-9 mt-3'
+                id='name'
+                type='text'
+                placeHolder='نام'
+                style={{
+                  borderRadius: '0.45rem',
+                  border: '1px solid #0000004f',
+                  height: '40px',
+                  width: '100%',
+                  outline: 'none',
+                  background: 'white',
+                }}
+              />
             </div>
-            <input
-              onChange={handleNameChange}
-              value={name}
-              required
-              className='col-9 mt-3'
-              id='name'
-              type='text'
-              style={{
-                borderRadius: '0.45rem',
-                border: '1px solid #0000004f',
-                height: '30px',
-                width: '100%',
-                outline: 'none',
-                background: 'white',
-              }}
-            />
-          </div>
+          </Grow>
 
-          <div className='row mx-0 mt-2'>
-            <div className='col-3 my-auto'>
-              <label>نام خانوادگی :</label>
+          <Grow
+            in={registerModal}
+            timeout={700}
+            style={{ transformOrigin: '0 0 0' }}
+          >
+            <div className='row mx-0 mt-2'>
+              <input
+                onChange={handleLnameChange}
+                value={lastName}
+                required
+                className='col-9 mt-3'
+                id='lastname'
+                type='text'
+                placeHolder='نام خانوادگی'
+                style={{
+                  borderRadius: '0.45rem',
+                  border: '1px solid #0000004f',
+                  height: '40px',
+                  width: '100%',
+                  outline: 'none',
+                  background: 'white',
+                }}
+              />
             </div>
-            <input
-              onChange={handleLnameChange}
-              value={lastName}
-              required
-              className='col-9 mt-3'
-              id='lastname'
-              type='text'
-              style={{
-                borderRadius: '0.45rem',
-                border: '1px solid #0000004f',
-                height: '30px',
-                width: '100%',
-                outline: 'none',
-                background: 'white',
-              }}
-            />
-          </div>
+          </Grow>
 
-          <div className='row mx-0 mt-2'>
-            <div className='col-3 my-auto'>
-              <label>کد معرف :</label>
+          <Grow
+            in={registerModal}
+            timeout={900}
+            style={{ transformOrigin: '0 0 0' }}
+          >
+            <div className='row mx-0 mt-2'>
+              <input
+                onChange={handlePasswordChange}
+                value={password}
+                required
+                className='col-9 mt-3'
+                id='lastname'
+                type='text'
+                placeHolder='رمز عبور'
+                style={{
+                  borderRadius: '0.45rem',
+                  border: '1px solid #0000004f',
+                  height: '40px',
+                  width: '100%',
+                  outline: 'none',
+                  background: 'white',
+                }}
+              />
             </div>
-            <input
-              onChange={handleLRefererChange}
-              value={Referer}
-              required
-              className='col-9 mt-3'
-              id='lastname'
-              type='text'
-              style={{
-                borderRadius: '0.45rem',
-                border: '1px solid #0000004f',
-                height: '30px',
-                width: '100%',
-                outline: 'none',
-                background: 'white',
-              }}
-            />
-          </div>
+          </Grow>
 
-          <div className='row mx-0 mt-4' style={{ textAlign: 'end' }}>
-            <div
-              className='col-3 my-auto  text-right'
-              style={{ textAlign: 'right' }}
-            >
-              <label>جنسیت :</label>
+          <Grow
+            in={registerModal}
+            timeout={1100}
+            style={{ transformOrigin: '0 0 0' }}
+          >
+            <div className='row mx-0 mt-2'>
+              <input
+                onChange={handleLRefererChange}
+                value={Referer}
+                required
+                className='col-9 mt-3'
+                id='lastname'
+                type='text'
+                placeHolder='کد معرف'
+                style={{
+                  borderRadius: '0.45rem',
+                  border: '1px solid #0000004f',
+                  height: '40px',
+                  width: '100%',
+                  outline: 'none',
+                  background: 'white',
+                }}
+              />
             </div>
-            <div className='row col-7 col-lg-9 col-md-8 col-sm-8  '>
-              <div className='col-6 col-lg-6 col-md-6 col-sm-6 text-right'>
-                <label className='fontsize-sm ' style={{ marginLeft: '15px' }}>
-                  خانم
-                </label>
-                <input
-                  onChange={handleGenderChange}
-                  value={gender}
-                  required
-                  type='radio'
-                  name='sex'
-                  className='sex text-start'
-                  value='2'
-                  style={{ textAlign: 'end' }}
-                />
+          </Grow>
+
+          <Grow
+            in={registerModal}
+            timeout={1300}
+            style={{ transformOrigin: '0 0 0' }}
+          >
+            <div className='row mx-0 mt-4' style={{ textAlign: 'end' }}>
+              <div
+                className='col-3 my-auto  text-right'
+                style={{ textAlign: 'right' }}
+              >
+                <label>جنسیت :</label>
               </div>
-              <div className='col-6 col-lg-6 col-md-6 col-sm-6 text-right'>
-                <label className='fontsize-sm ' style={{ marginLeft: '15px' }}>
-                  اقا
-                </label>
-                <input
-                  onChange={handleGenderChange}
-                  value={gender}
-                  required
-                  type='radio'
-                  name='sex'
-                  className='sex text-start'
-                  value='1'
-                  style={{ textAlign: 'end' }}
-                />
+              <div className='row col-7 col-lg-9 col-md-8 col-sm-8  '>
+                <div className='col-6 col-lg-6 col-md-6 col-sm-6 text-right'>
+                  <label
+                    className='fontsize-sm '
+                    style={{ marginLeft: '15px' }}
+                  >
+                    خانم
+                  </label>
+                  <input
+                    onChange={handleGenderChange}
+                    value={gender}
+                    required
+                    type='radio'
+                    name='sex'
+                    className='sex text-start'
+                    value='2'
+                    style={{ textAlign: 'end' }}
+                  />
+                </div>
+                <div className='col-6 col-lg-6 col-md-6 col-sm-6 text-right'>
+                  <label
+                    className='fontsize-sm '
+                    style={{ marginLeft: '15px' }}
+                  >
+                    اقا
+                  </label>
+                  <input
+                    onChange={handleGenderChange}
+                    value={gender}
+                    required
+                    type='radio'
+                    name='sex'
+                    className='sex text-start'
+                    value='1'
+                    style={{ textAlign: 'end' }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          </Grow>
         </Modal.Body>
         <Modal.Footer className='justify-content-center'>
           <Button

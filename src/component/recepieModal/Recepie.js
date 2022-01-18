@@ -1,10 +1,10 @@
 import { React, useState, useEffect } from 'react'
 import { Modal } from 'react-bootstrap'
 import { useProjectContext } from '../../context/ProjectProvider'
-
+import giff from '../../assets/img/giff.gif'
 const Recepie = ({ pro }) => {
   const { RecepieModal, RecepieClose, RecepieShow } = useProjectContext()
-  console.log(pro)
+
   return (
     <Modal
       onHide={RecepieClose}
@@ -20,11 +20,13 @@ const Recepie = ({ pro }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <script src='https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js'></script>
+        <img src={giff} alt='gif' style={{ width: '100%' }} />
         <div style={{ justifyContent: 'center' }}>
           <p
             style={{
-              fontWeight: '500',
-              fontSize: '20px',
+              fontWeight: '100',
+              fontSize: '15px',
               direction: 'rtl',
               textAlign: 'justify',
             }}

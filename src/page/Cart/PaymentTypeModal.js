@@ -22,10 +22,7 @@ export const PaymentTypeModal = ({ sendData }) => {
     userData,
   } = useProjectContext()
 
-  useEffect(() => {
-    console.log('use effect')
-    // getShifts(categoryId, dayId);
-  }, [showPaymentTypeModal])
+  useEffect(() => {}, [showPaymentTypeModal])
 
   const selectPaymentType = (address) => {
     setSelectedPaymentType(address)
@@ -34,7 +31,7 @@ export const PaymentTypeModal = ({ sendData }) => {
   }
 
   return (
-    <Modal show={showPaymentTypeModal} onHide={paymentTypeModalClose} size='md'>
+    <Modal show={showPaymentTypeModal} onHide={closePaymentTypeModal} size='md'>
       <Modal.Body>
         {paymentTypeList ? (
           <>
@@ -60,7 +57,7 @@ export const PaymentTypeModal = ({ sendData }) => {
                 paymentTypeList.map((e) => {
                   return (
                     <div
-                      onClick={() => selectPaymentType(e)}
+                      onClick={() => selectPaymentType(e.id)}
                       className='mt-3'
                       style={{
                         cursor: 'pointer',
@@ -76,10 +73,12 @@ export const PaymentTypeModal = ({ sendData }) => {
                         style={{
                           fontWeight: 'bolder',
                           fontSize: '20px',
+                          marginRight: '15px',
                         }}
                       >
                         {e['name']}
                       </span>
+                      <img alt={e.id} src={e.image} style={{ width: '10%' }} />
                     </div>
                   )
                 })

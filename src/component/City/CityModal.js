@@ -38,7 +38,6 @@ const ModalCity = () => {
       if (content.isDone) {
         setStates(content.data)
       }
-      console.log(content)
     } catch (error) {
       console.log(error)
     }

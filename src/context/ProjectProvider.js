@@ -4,6 +4,7 @@ const ProjectContext = React.createContext()
 
 export const ProjectProvider = ({ children }) => {
   const [userData, setUserData] = useState(null)
+  const [idOfDay, setIdOfDay] = useState('')
   const [cart, setCart] = useState(
     localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {}
   )
@@ -12,7 +13,6 @@ export const ProjectProvider = ({ children }) => {
   const [updateUi, setUpdateUi] = useState(true)
 
   const addToCart = (item) => {
-    console.log(item)
     setUpdateUi(false)
     let tmpCart = cart
     if (!tmpCart.hasOwnProperty(item.id.toString())) {
@@ -72,8 +72,12 @@ export const ProjectProvider = ({ children }) => {
 
   const [cityModal, setCityModal] = useState(false)
   const [addressList, setAddressList] = useState([])
+
   const [showModal, setShowModal] = useState(false)
+  const shiftModalClose = () => setShowModal(false)
+  const shiftModalOpen = () => setShowModal(true)
   const [closeModal, setCloseModal] = useState(false)
+
   const [addressModalClose, setAddressModalClose] = useState(false)
   const [selectedShift, setSelectedShift] = useState({})
   const [paymentTypeList, setPaymentTypeList] = useState(null)
@@ -99,6 +103,10 @@ export const ProjectProvider = ({ children }) => {
   const RegisterClose = () => setRegisterModal(false)
   const RegisterShow = () => setRegisterModal(true)
 
+  const [discountModal, setDiscountModal] = useState(false)
+  const DiscountClose = () => setDiscountModal(false)
+  const DiscountShow = () => setDiscountModal(true)
+
   const [shiftModal, setShiftModal] = useState(false)
   const ShiftClose = () => setShiftModal(false)
   const ShiftShow = () => setShiftModal(true)
@@ -106,6 +114,10 @@ export const ProjectProvider = ({ children }) => {
   const [mapModal, setMapModal] = useState(false)
   const MapModalClose = () => setMapModal(false)
   const MapModalOpen = () => setMapModal(true)
+
+  const [editModal, setEditModal] = useState(false)
+  const editModalClose = () => setEditModal(false)
+  const editModalOpen = () => setEditModal(true)
 
   const [RecepieModal, setRecepieModal] = useState(false)
   const RecepieClose = () => setRecepieModal(false)
@@ -119,6 +131,16 @@ export const ProjectProvider = ({ children }) => {
   return (
     <ProjectContext.Provider
       value={{
+        discountModal,
+        DiscountClose,
+        DiscountShow,
+        idOfDay,
+        setIdOfDay,
+        shiftModalOpen,
+        shiftModalClose,
+        editModal,
+        editModalClose,
+        editModalOpen,
         ui,
         setUi,
         customerPosition,

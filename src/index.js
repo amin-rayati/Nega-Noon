@@ -4,7 +4,12 @@ import App from './App'
 import { ProjectProvider } from './context/ProjectProvider'
 import { CookiesProvider } from 'react-cookie'
 import 'leaflet/dist/leaflet.css'
-
+ReactDOM.render(
+  <ProjectProvider>
+    <App />
+  </ProjectProvider>,
+  document.getElementById('root')
+)
 ReactDOM.render(
   <CookiesProvider>
     <ProjectProvider>

@@ -2,6 +2,8 @@ import { React, useState, useEffect } from 'react'
 import Bread from '../../assets/img/bread.png'
 import PageLoader from '../PageLoader/PageLoader'
 import { Helmet } from 'react-helmet'
+import Loading from '../../component/Loading/Loading'
+import Fade from '@mui/material/Fade'
 
 const Rules = () => {
   const [data, setData] = useState()
@@ -31,51 +33,57 @@ const Rules = () => {
     getAllData()
   }, [])
   if (!data) {
-    return <PageLoader />
+    return <Loading />
   } else {
     return (
-      <div className='container mx-auto ' style={{ marginTop: '170px' }}>
-        <Helmet>
-          <meta charSet='utf-8' />
-          <title>قوانین و مقررات نگانون </title>
-        </Helmet>
-        <div style={{ textAlign: 'center' }}>
-          <h1>قوانین و مقررات</h1>
-        </div>
-        <div
-          className='mt-5 col-lg-8  col-md-12 col-sm-12 col-12'
-          style={{ textAlign: 'right', margin: 'auto' }}
-        >
-          {data &&
-            data.map((e) => {
-              return (
-                <div
-                  key={e.id}
-                  className='row mt-5'
-                  style={{ justifyContent: 'center' }}
-                >
-                  <p
-                    className='col-lg-9 order-lg-1 order-md-2 order-sm-2 order-2 col-md-12 col-sm-12 col-12'
-                    style={{
-                      fontSize: '15px',
-                      fontWeight: '400',
-                      marginRight: '10px',
-                      direction: 'rtl',
-                      marginTop: '15px',
-                    }}
+      <Fade
+        in={true}
+        style={{ transformOrigin: '0 0 0' }}
+        {...(true ? { timeout: 2000 } : {})}
+      >
+        <div className='container mx-auto ' style={{ marginTop: '170px' }}>
+          <Helmet>
+            <meta charSet='utf-8' />
+            <title>قوانین و مقررات نگانون </title>
+          </Helmet>
+          <div style={{ textAlign: 'center' }}>
+            <h1>قوانین و مقررات</h1>
+          </div>
+          <div
+            className='mt-5 col-lg-8  col-md-12 col-sm-12 col-12'
+            style={{ textAlign: 'right', margin: 'auto' }}
+          >
+            {data &&
+              data.map((e) => {
+                return (
+                  <div
+                    key={e.id}
+                    className='row mt-5'
+                    style={{ justifyContent: 'center' }}
                   >
-                    {e.text}
-                  </p>
-                  <img
-                    className='rules-img col-lg-3  order-lg-2 order-md-1 order-sm-1 order-1 col-md-12 col-sm-12 col-12 '
-                    src={e.image}
-                    alt='noon'
-                  />
-                </div>
-              )
-            })}
+                    <p
+                      className='col-lg-9 order-lg-1 order-md-2 order-sm-2 order-2 col-md-12 col-sm-12 col-12'
+                      style={{
+                        fontSize: '15px',
+                        fontWeight: '400',
+                        marginRight: '10px',
+                        direction: 'rtl',
+                        marginTop: '15px',
+                      }}
+                    >
+                      {e.text}
+                    </p>
+                    <img
+                      className='rules-img col-lg-3  order-lg-2 order-md-1 order-sm-1 order-1 col-md-12 col-sm-12 col-12 '
+                      src={e.image}
+                      alt='noon'
+                    />
+                  </div>
+                )
+              })}
+          </div>
         </div>
-      </div>
+      </Fade>
     )
   }
 }

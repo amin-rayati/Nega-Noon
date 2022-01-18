@@ -10,7 +10,7 @@ import { Cookies, useCookies } from 'react-cookie'
 import Dropzone from 'react-dropzone'
 import Swal from 'sweetalert2'
 import PageLoader from '../PageLoader/PageLoader'
-import Loader from '../../component/Loading/Loading'
+import Loader from '../../component/Loading/LoginLoading'
 import Breadcrump from '../../component/BreadCrump/BreadCrumpDashboard'
 import { Helmet } from 'react-helmet'
 
@@ -157,7 +157,6 @@ const Dashboard = () => {
       setLname(userData['customerLastName'])
       setgender(userData['customerGender'])
       setCoponCode(userData['refer_code'])
-      console.log(userData)
     }
   }, [userData])
 

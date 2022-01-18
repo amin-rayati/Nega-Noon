@@ -11,11 +11,15 @@ import { AddressModal } from '../Cart/AddressModal'
 import { useCookies } from 'react-cookie'
 import Swal from 'sweetalert2'
 import axios from 'axios'
-
+import Loading from '../../component/Loading/Loading'
+import Fade from '@mui/material/Fade'
 const Dashboard = () => {
   const [cookiesCityid, setCookieCityid, removeCookieCityid] = useCookies([
     'cityid',
   ])
+  const nummber = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
   const [activeAddress, setActiveAddress] = useState('')
   const {
     userData,
@@ -36,6 +40,7 @@ const Dashboard = () => {
   } = useProjectContext()
 
   useEffect(() => {}, [addressModal])
+
   return (
     <div className='container mx-auto ' style={{ marginTop: '170px' }}>
       <Helmet>
@@ -55,7 +60,7 @@ const Dashboard = () => {
           >
             <div className='mt-3' style={{ textAlign: '-webkit-center' }}>
               <h6 style={{ fontSize: '25px', direction: 'rtl' }}>
-                موجودی کیف پول :{' '}
+                موجودی کیف پول :
               </h6>
               <h6
                 style={{
@@ -63,11 +68,11 @@ const Dashboard = () => {
                 }}
                 className='mt-3'
               >
-                5000 تومان
+                {nummber(userData ? userData['credit'] : 1000)} تومان
               </h6>
             </div>
             <img alt='user' style={{ width: '60%' }} src={credit} />
-            {/* <div className='mt-3' style={{ textAlign: 'left' }}>
+            <div className='mt-3' style={{ textAlign: 'left' }}>
               <LinkContainer
                 to='/money'
                 style={{
@@ -78,7 +83,7 @@ const Dashboard = () => {
               >
                 <span>افزایش موجودی</span>
               </LinkContainer>
-            </div> */}
+            </div>
           </div>
         </div>
         <div className='col-lg-6 col-md-12 col-sm-12 col-12 order-lg-2 order-md-2 order-sm-2 order-2 mt-3'>
