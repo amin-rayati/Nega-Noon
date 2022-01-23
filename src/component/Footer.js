@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, useState, useEffect } from 'react'
 import logo from '../assets/img/neganoon.png'
 
 import { BsFillSquareFill } from 'react-icons/bs'
@@ -15,11 +15,54 @@ const Footer = () => {
     const url = 'https://www.instagram.com/neganoon/'
     window.open(url, '_blank')
   }
-
   const telegram = () => {
     const url = 'https://t.me/neganoon'
     window.open(url, '_blank')
   }
+
+  const negarine = () => {
+    const url = 'https://negarine.com/'
+    window.open(url, '_blank')
+  }
+  const negaclub = () => {
+    const url = 'https://site.negaclub.ir/'
+    window.open(url, '_blank')
+  }
+  const negamarket = () => {
+    const url = 'https://negamarket.com/'
+    window.open(url, '_blank')
+  }
+
+  const [data, setData] = useState()
+
+  const getAllData = async () => {
+    try {
+      const rawResponse = await fetch(
+        'https://meyt.neganoon.ir/admin/AboutUs/API/_neganoonInfo?token=test',
+        {
+          method: 'POST',
+          headers: new Headers({
+            'Content-Type': 'application/x-www-form-urlencoded',
+            token: 'test',
+          }),
+          body: JSON.stringify({
+            token: 'test',
+          }),
+        }
+      )
+      const content = await rawResponse.json()
+
+      if (content.isDone) {
+        setData(content.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getAllData()
+  }, [])
 
   return (
     <div style={{ marginTop: '150px' }}>
@@ -36,8 +79,7 @@ const Footer = () => {
             style={{ cursor: 'pointer' }}
           >
             <p className='m-0' style={{ color: 'white', fontSize: '13px' }}>
-              آدرس : کرج-بلوارشهید بهشتی-نبش دهقان ویلای دوم-ساختمان اتیه-طبقه
-              ششم
+              آدرس : {data && data.address}
             </p>
 
             <GoLocation
@@ -51,7 +93,7 @@ const Footer = () => {
             style={{ cursor: 'pointer' }}
           >
             <p className='m-0' style={{ color: 'white', fontSize: '13px' }}>
-              info@negaclub.ir : ایمیل
+              {data && data.onlineSupport} : ایمیل
             </p>
 
             <FaVoicemail
@@ -65,7 +107,7 @@ const Footer = () => {
             style={{ cursor: 'pointer' }}
           >
             <p className='m-0' style={{ color: 'white', fontSize: '13px' }}>
-              026-34239231 - 026-تلفن :34239221
+              تلفن : {data && data.telephone}
             </p>
 
             <AiOutlinePhone
@@ -79,7 +121,7 @@ const Footer = () => {
             style={{ cursor: 'pointer' }}
           >
             <p className='m-0' style={{ color: 'white', fontSize: '13px' }}>
-              021-9107132 - 021-تلفن های سراسری:91071231
+              021-تلفن های سراسری :91071231
             </p>
 
             <AiOutlinePhone
@@ -96,23 +138,31 @@ const Footer = () => {
 
             <div
               className='bg-circle1 bg-circle5  mb-3'
-              style={{ border: '1px solid white', marginLeft: '20px' }}
+              style={{
+                border: '1px solid white',
+                marginLeft: '20px',
+                cursor: 'pointer',
+              }}
             >
               <FaInstagram
                 onClick={instagram}
                 className='instagram'
-                style={{ color: 'white', marginTop: '7px' }}
+                style={{ color: 'white', marginTop: '7px', cursor: 'pointer' }}
                 size={15}
               />
             </div>
             <div
               className='bg-circle1 bg-circle5  mb-3'
-              style={{ border: '1px solid white', marginLeft: '20px' }}
+              style={{
+                border: '1px solid white',
+                marginLeft: '20px',
+                cursor: 'pointer',
+              }}
             >
               <FaTelegram
                 onClick={telegram}
                 className='instagram'
-                style={{ color: 'white', marginTop: '7px' }}
+                style={{ color: 'white', marginTop: '7px', cursor: 'pointer' }}
                 size={15}
               />
             </div>
@@ -129,49 +179,49 @@ const Footer = () => {
             className='footer-add d-flex flex-row mt-4'
             style={{ cursor: 'pointer' }}
           >
-            <a
-              href='https://negarine.com/'
+            <p
+              onClick={negarine}
               className=''
               style={{ color: 'white', fontSize: '15px' }}
             >
               نگارینه
-            </a>
+            </p>
 
             <BsFillSquareFill
               className='mt-2'
               size={8}
               style={{ color: '#FFB135', marginLeft: '20px' }}
             />
-          </div>{' '}
+          </div>
           <div
             className='footer-add d-flex flex-row mt-2'
             style={{ cursor: 'pointer' }}
           >
-            <a
-              href='https://site.negaclub.ir/'
+            <p
+              onClick={negaclub}
               className=''
               style={{ color: 'white', fontSize: '15px' }}
             >
               نگاکلاب
-            </a>
+            </p>
 
             <BsFillSquareFill
               className='mt-2'
               size={8}
               style={{ color: '#FFB135', marginLeft: '20px' }}
             />
-          </div>{' '}
+          </div>
           <div
             className='footer-add d-flex flex-row mt-2'
             style={{ cursor: 'pointer' }}
           >
-            <a
-              href='https://negamarket.com/'
+            <p
+              onClick={negamarket}
               className=''
               style={{ color: 'white', fontSize: '15px' }}
             >
               نگامارکت
-            </a>
+            </p>
 
             <BsFillSquareFill
               className='mt-2'
@@ -239,7 +289,7 @@ const Footer = () => {
 
         <div
           className='col-lg-3 order-lg-4 col-md-12 order-md-1 col-sm-12 order-sm-1 col-12 order-1 footer-box'
-          style={{ textAlign: 'center' }}
+          style={{ textAlign: 'center', justifyContent: 'center' }}
         >
           <img
             src={logo}
@@ -248,6 +298,23 @@ const Footer = () => {
             alt='logo'
           />
           <h6 className='mt-4'>نگانون</h6>
+          <a
+            className='enamad-style mx-auto '
+            style={{ marginTop: '15px' }}
+            referrerpolicy='origin'
+            target='_blank'
+            href='http://trustseal.enamad.ir/?id=181182&amp;Code=GTc0Xcwir0FjcNUG7vQD'
+          >
+            <img
+              referrerpolicy='origin'
+              src={
+                'http://Trustseal.eNamad.ir/logo.aspx?id=181182&amp;Code=GTc0Xcwir0FjcNUG7vQD'
+              }
+              alt=''
+              style={{ cursor: 'pointer' }}
+              id='GTc0Xcwir0FjcNUG7vQD'
+            />
+          </a>
         </div>
       </div>
 

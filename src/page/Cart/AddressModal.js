@@ -12,6 +12,7 @@ import MyMap from '../../component/MyMap'
 import EditMap from '../../component/EditMap'
 import Swal from 'sweetalert2'
 import Loader from '../../component/Loading/LoginLoading'
+import { parse } from 'stylis'
 
 export const AddressModal = () => {
   const [cookiesCityid, setCookieCityid, removeCookieCityid] = useCookies([
@@ -22,6 +23,7 @@ export const AddressModal = () => {
   ])
 
   const [singleAdd, setSingleAdd] = useState('')
+  const [districtId, setDistrictId] = useState(0)
   const [loading, setloading] = useState(false)
   const [activeAddress, setActiveAddress] = useState('')
   const [regions, setRegions] = useState('')
@@ -65,6 +67,7 @@ export const AddressModal = () => {
     MapModalOpen,
     userData,
     customerPosition,
+    setCustomerPosition,
   } = useProjectContext()
 
   const handleAddressTitleChange = (e) => {
@@ -79,18 +82,6 @@ export const AddressModal = () => {
       setFullAddressRequire(false)
     }
   }
-  const handleMainStreetChange = (e) => {
-    setMainStreet(e.target.value)
-    if (e.target.value.length > 4) {
-      setMainStreetRequire(false)
-    }
-  }
-  const handleAlleyChange = (e) => {
-    setAlley(e.target.value)
-    if (e.target.value.length > 4) {
-      setAlleyRequire(false)
-    }
-  }
 
   const handleAddressTitleEditChange = (e) => {
     setAddressTitleEdit(e.target.value)
@@ -102,18 +93,6 @@ export const AddressModal = () => {
     setFullAddressEdit(e.target.value)
     if (e.target.value.length > 10) {
       setFullAddressEditRequire(false)
-    }
-  }
-  const handleMainStreetEditChange = (e) => {
-    setMainStreetEdit(e.target.value)
-    if (e.target.value.length > 4) {
-      setMainStreetEditRequire(false)
-    }
-  }
-  const handleAlleyEditChange = (e) => {
-    setAlleyEdit(e.target.value)
-    if (e.target.value.length > 4) {
-      setAlleyEditRequire(false)
     }
   }
 
@@ -232,6 +211,8 @@ export const AddressModal = () => {
       .then((response) => {
         if (response.data.isDone) {
           setSingleAdd(response.data.data)
+
+          editAddModal(id)
         }
       })
       .catch((error) => {
@@ -241,121 +222,192 @@ export const AddressModal = () => {
   const editAddModal = () => {
     editModalOpen()
   }
-  const editAddress = () => {
-    if (addressTitleEdit.length < 3) {
-      setAddressTitleEditRequire(true)
-      return
-    }
-    if (fullAddressEdit.length < 10) {
-      setFullAddressEditRequire(true)
-      return
-    }
-    if (mainStreetEdit.length < 3) {
-      setMainStreetEditRequire(true)
-      return
-    }
-    if (alleyEdit.length < 3) {
-      setAlleyEditRequire(true)
-      return
-    }
-    if (userData) {
-      setloading(true)
-      axios
-        .post(
-          'https://meyt.neganoon.ir/admin/CustomerAddresses/API/_editAddress?token=test',
-          {
-            customerAddressId: addressIdEdit,
-            districtId: document.getElementById('catEdit').value,
-            mainStreet: mainStreetEdit,
-            addressName: addressTitleEdit,
-            alley: alleyEdit,
-            fullAddress: fullAddressEdit,
-            latitude: customerPosition['lat'],
-            longitude: customerPosition['lng'],
-          },
-          {
-            headers: {
-              token: 'test',
-            },
-          }
-        )
 
-        .then((response) => {
-          if (response.data.isDone) {
-            setloading(false)
-            Swal.fire({
-              type: 'success',
-              title: 'آدرس شما با موفقیت ویرایش شد',
-            })
-            editModalClose()
-          }
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
-  }
   const AddAddress = () => {
-    if (addressTitle.length < 3) {
-      setAddressTitleRequire(true)
-      return
-    }
-    if (fullAddress.length < 10) {
-      setFullAddressRequire(true)
-      return
-    }
-    if (mainStreet.length < 3) {
-      setMainStreetRequire(true)
-      return
-    }
-    if (alley.length < 3) {
-      setAlleyRequire(true)
-      return
-    }
-    if (userData) {
-      setloading(true)
-      axios
-        .post(
-          'https://meyt.neganoon.ir/admin/CustomerAddresses/API/_addAddress?token=test',
-          {
-            customer_id: userData.customerId,
-            stateId: cookiesStateid['stateid'],
-            cityId: cookiesCityid['cityid'],
-            districtId: document.getElementById('cat').value,
-            mainStreet: mainStreet,
-            addressName: addressTitle,
-            alley: alley,
-            fullAddress: fullAddress,
-            latitude: customerPosition['lat'],
-            longitude: customerPosition['lng'],
-          },
-          {
-            headers: {
-              token: 'test',
-            },
-          }
+    let districtId1 = 0
+    regions.forEach((j) => {
+      if (
+        inside(
+          [
+            parseFloat(customerPosition['lat']),
+            parseFloat(customerPosition['lng']),
+          ],
+          j['polygon'].map((e) => {
+            return [parseFloat(e.split(',')[0]), parseFloat(e.split(',')[1])]
+          })
         )
+      ) {
+        districtId1 = j.id
+      }
+    })
 
-        .then((response) => {
-          if (response.data.isDone) {
-            setloading(false)
-            Swal.fire({
-              type: 'success',
-              title: 'آدرس شما با موفقیت ثبت شد',
-            })
-            MapModalClose()
-          }
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+    if (districtId1 > 0) {
+      if (addressTitle.length < 3) {
+        setAddressTitleRequire(true)
+        return
+      }
+      if (fullAddress.length < 10) {
+        setFullAddressRequire(true)
+        return
+      }
+
+      if (userData) {
+        setloading(true)
+        axios
+          .post(
+            'https://meyt.neganoon.ir/admin/CustomerAddresses/API/_addAddress?token=test',
+            {
+              customer_id: userData.customerId,
+              stateId: cookiesStateid['stateid'],
+              cityId: cookiesCityid['cityid'],
+              districtId: districtId1,
+              addressName: addressTitle,
+              fullAddress: fullAddress,
+              latitude: customerPosition['lat'],
+              longitude: customerPosition['lng'],
+            },
+            {
+              headers: {
+                token: 'test',
+              },
+            }
+          )
+          .then((response) => {
+            if (response.data.isDone) {
+              setloading(false)
+              Swal.fire({
+                type: 'success',
+                title: 'آدرس شما با موفقیت ثبت شد',
+              })
+              MapModalClose()
+            }
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
+    } else {
+      Swal.fire({
+        title: 'آدرس شما تحت پوشش نگانون نیست',
+        type: 'error',
+        confirmButtonText: 'فهمیدم',
+      })
     }
   }
+  const editAddress = () => {
+    let districtId1 = 0
+    regions.forEach((j) => {
+      if (
+        inside(
+          [
+            parseFloat(customerPosition['lat']),
+            parseFloat(customerPosition['lng']),
+          ],
+          j['polygon'].map((e) => {
+            return [parseFloat(e.split(',')[0]), parseFloat(e.split(',')[1])]
+          })
+        )
+      ) {
+        districtId1 = j.id
+      }
+    })
+
+    if (districtId1 > 0) {
+      if (addressTitleEdit.length < 3) {
+        setAddressTitleEditRequire(true)
+        return
+      }
+      if (fullAddressEdit.length < 10) {
+        setFullAddressEditRequire(true)
+        return
+      }
+
+      if (userData) {
+        setloading(true)
+        axios
+          .post(
+            'https://meyt.neganoon.ir/admin/CustomerAddresses/API/_editAddress?token=test',
+            {
+              customerAddressId: addressIdEdit,
+              districtId: districtId1,
+              mainStreet: mainStreetEdit,
+              addressName: addressTitleEdit,
+              alley: alleyEdit,
+              fullAddress: fullAddressEdit,
+              latitude: customerPosition['lat'],
+              longitude: customerPosition['lng'],
+            },
+            {
+              headers: {
+                token: 'test',
+              },
+            }
+          )
+
+          .then((response) => {
+            if (response.data.isDone) {
+              setAddLatEdit('')
+              setAddLongEdit('')
+              setCustomerPosition('')
+              setloading(false)
+
+              editModalClose()
+              Swal.fire({
+                type: 'success',
+                title: 'آدرس شما با موفقیت ویرایش شد',
+                onAfterClose: () => {
+                  setAddLatEdit('')
+                  setAddLongEdit('')
+                  setSingleAdd('')
+                },
+              })
+            }
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
+    } else {
+      Swal.fire({
+        title: 'آدرس شما تحت پوشش نگانون نیست',
+        type: 'error',
+        confirmButtonText: 'فهمیدم',
+      })
+    }
+  }
+  function inside(point, vs) {
+    var x = point[0],
+      y = point[1]
+
+    var inside = false
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+      var xi = vs[i][0],
+        yi = vs[i][1]
+      var xj = vs[j][0],
+        yj = vs[j][1]
+
+      var intersect =
+        yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi
+
+      if (intersect === true) {
+        inside = !inside
+      }
+    }
+
+    return inside
+  }
+
   useEffect(() => {
     changeAddress()
     getRegions()
   }, [addressModal, editModal])
 
+  useEffect(() => {
+    if (!editModal) {
+      // setAddLatEdit('')
+      // setAddLongEdit('')
+    }
+  }, [editModal])
   useEffect(() => {
     if (singleAdd) {
       setFullAddressEdit(singleAdd['full'])
@@ -365,8 +417,10 @@ export const AddressModal = () => {
       setAddIdEdit(singleAdd['customer_address_id'])
       setAddLatEdit(singleAdd['latitude'])
       setAddLongEdit(singleAdd['longitude'])
+    } else {
+      editModalClose()
     }
-  }, [singleAdd])
+  }, [singleAdd, editModalOpen])
 
   return (
     <>
@@ -419,7 +473,6 @@ export const AddressModal = () => {
                             >
                               <FiEdit
                                 onClick={() => {
-                                  editAddModal(e.customer_address_id)
                                   geteditAddInfo(e.customer_address_id)
                                 }}
                                 style={{ color: '#FFB135', cursor: 'pointer' }}
@@ -530,31 +583,6 @@ export const AddressModal = () => {
             <div className='row mt-3'>
               <div style={{ textAlign: 'right' }}>
                 <label>
-                  <h6 style={{ color: 'black' }}>منطقه</h6>
-                </label>
-              </div>
-              <div>
-                <select
-                  id='cat'
-                  className=' form-input my-3'
-                  placeholder='دسته بندی'
-                  type='text'
-                  title='Ten digits code'
-                >
-                  <option disabled>نوع درخواست</option>
-                  {regions &&
-                    regions.map((e) => {
-                      return (
-                        <option key={e.id} value={e.id}>
-                          {e.districtName}
-                        </option>
-                      )
-                    })}
-                </select>
-              </div>
-
-              <div style={{ textAlign: 'right' }}>
-                <label>
                   <h6 style={{ color: 'black' }}>عنوان آدرس</h6>
                 </label>
               </div>
@@ -617,12 +645,12 @@ export const AddressModal = () => {
                   لطفا آدرس خود را وارد کنید
                 </h5>
               ) : null}
-              <div style={{ textAlign: 'right' }}>
+              {/* <div style={{ textAlign: 'right' }}>
                 <label>
                   <h6 style={{ color: 'black' }}>خیابان اصلی</h6>
                 </label>
-              </div>
-              <div className='row mx-0 mt-2'>
+              </div> */}
+              {/* <div className='row mx-0 mt-2'>
                 <input
                   onChange={handleMainStreetChange}
                   value={mainStreet}
@@ -648,13 +676,13 @@ export const AddressModal = () => {
                 >
                   لطفا نام خیابان اصلی خود را وارد کنید
                 </h5>
-              ) : null}
-              <div style={{ textAlign: 'right' }}>
+              ) : null} */}
+              {/* <div style={{ textAlign: 'right' }}>
                 <label>
                   <h6 style={{ color: 'black' }}>خیابان فرعی</h6>
                 </label>
-              </div>
-              <div className='row mx-0 mt-2'>
+              </div> */}
+              {/* <div className='row mx-0 mt-2'>
                 <input
                   onChange={handleAlleyChange}
                   value={alley}
@@ -668,8 +696,8 @@ export const AddressModal = () => {
                   type='text'
                   title='Ten digits code'
                 />
-              </div>
-              {alleyRequire ? (
+              </div> */}
+              {/* {alleyRequire ? (
                 <h5
                   className='mt-2'
                   style={{
@@ -680,7 +708,7 @@ export const AddressModal = () => {
                 >
                   لطفا نام خیابان فرعی خود را وارد کنید
                 </h5>
-              ) : null}
+              ) : null} */}
             </div>
             <div className='mt-3'>
               <button onClick={AddAddress} className='btn-send-address'>
@@ -709,11 +737,13 @@ export const AddressModal = () => {
               <span style={{ marginLeft: '5px' }}> تکمیل اطلاعات</span>
             </div>
 
-            {singleAdd ? (
+            {singleAdd &&
+            addressLatEdit.length > 1 &&
+            addressLongEdit.length > 1 ? (
               <EditMap lat={addressLatEdit} long={addressLongEdit} />
             ) : null}
             <div className='row mt-3'>
-              <div style={{ textAlign: 'right' }}>
+              {/* <div style={{ textAlign: 'right' }}>
                 <label>
                   <h6 style={{ color: 'black' }}>منطقه</h6>
                 </label>
@@ -740,7 +770,7 @@ export const AddressModal = () => {
                       )
                     })}
                 </select>
-              </div>
+              </div> */}
 
               <div style={{ textAlign: 'right' }}>
                 <label>
@@ -806,7 +836,7 @@ export const AddressModal = () => {
                   لطفا آدرس خود را وارد کنید
                 </h5>
               ) : null}
-              <div style={{ textAlign: 'right' }}>
+              {/* <div style={{ textAlign: 'right' }}>
                 <label>
                   <h6 style={{ color: 'black' }}>خیابان اصلی</h6>
                 </label>
@@ -869,7 +899,7 @@ export const AddressModal = () => {
                 >
                   لطفا نام خیابان فرعی خود را وارد کنید
                 </h5>
-              ) : null}
+              ) : null} */}
             </div>
             <div className='mt-3'>
               <button onClick={editAddress} className='btn-send-address'>

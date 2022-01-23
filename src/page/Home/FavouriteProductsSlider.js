@@ -99,7 +99,7 @@ export default function Carousel2() {
   }
   useEffect(() => {
     getAllProducts()
-  }, [])
+  }, [userData])
 
   return (
     <Slider {...slickDefaults}>

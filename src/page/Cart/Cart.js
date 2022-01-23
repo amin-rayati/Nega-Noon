@@ -1048,10 +1048,9 @@ const Cart = () => {
     setDiscountPrice('')
     setCode('')
   }, [totalCountp])
-
   if (!JSON.parse(localStorage.getItem('cart'))) {
     return (
-      <div style={{ textAlign: 'center', marginTop: '250px' }}>
+      <div style={{ textAlign: 'center', marginTop: '200px' }}>
         <h4>سبد خرید شما خالی است</h4>
         <LinkContainer to='/products/1'>
           <button className='purchase-btn'>خرید</button>
@@ -1491,7 +1490,7 @@ const Cart = () => {
                 }
               </>
             ) : (
-              <div style={{ textAlign: 'center', marginTop: '150px' }}>
+              <div style={{ textAlign: 'center', marginTop: '200px' }}>
                 <h4>سبد خرید شما خالی است</h4>
                 <LinkContainer to='/products/1'>
                   <button className='purchase-btn'>خرید</button>

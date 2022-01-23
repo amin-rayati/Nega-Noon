@@ -17,7 +17,6 @@ import { BsBookmarkFill, BsBookmark } from 'react-icons/bs'
 import Wish from './Wish'
 import { Helmet } from 'react-helmet'
 import Grow from '@mui/material/Grow'
-
 const Products = () => {
   const [cookiesCityid, setCookieCityid, removeCookieCityid] = useCookies([
     'cityid',
@@ -125,21 +124,24 @@ const Products = () => {
 
           <div style={{ textAlign: 'end' }} className='catPosition'>
             {categories.length > 0 &&
-              categories.map((e) => {
-                return (
-                  <LinkContainer to={`/products/${e.id}`}>
-                    <button
-                      className={
-                        activeCat == e.id
-                          ? 'choosen-cat-btn mx-2 mt-2'
-                          : 'cat-btn mx-2 mt-2'
-                      }
-                    >
-                      {e.name}
-                    </button>
-                  </LinkContainer>
-                )
-              })}
+              categories
+                .slice(0)
+                .reverse()
+                .map((e) => {
+                  return (
+                    <LinkContainer to={`/products/${e.id}`}>
+                      <button
+                        className={
+                          activeCat == e.id
+                            ? 'choosen-cat-btn mx-2 mt-2'
+                            : 'cat-btn mx-2 mt-2'
+                        }
+                      >
+                        {e.name}
+                      </button>
+                    </LinkContainer>
+                  )
+                })}
           </div>
           {products.length > 0 && categories.length > 0 ? (
             <>

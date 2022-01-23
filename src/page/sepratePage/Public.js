@@ -25,67 +25,69 @@ import Address from '../dashboard/Address'
 import Orders from '../dashboard/Orders'
 import Payments from '../dashboard/Payments'
 import OrdersDetails from '../dashboard/OrdersDetails'
-
+import { ScrollToTop } from '../../App'
 const Public = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user'])
 
   return (
     <Router>
-      <Header />
-      <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route exact path='/Products/:id'>
-          <Products />
-        </Route>
-        <Route exact path='/Products/:id/:id'>
-          <SingleProduct />
-        </Route>
-        <Route exact path='/cart'>
-          <Cart />
-        </Route>
-        <Route exact path='/About'>
-          <About />
-        </Route>
-        <Route exact path='/Rules'>
-          <Rules />
-        </Route>
-        <Route exact path='/Support'>
-          <Support />
-        </Route>
-        <Route exact path='/Dashboard'>
-          {cookies['user'] ? <Dashboard /> : <ErrorLogin />}
-        </Route>
-        <Route exact path='/Profile'>
-          {cookies['user'] ? <Profile /> : <ErrorLogin />}
-        </Route>
-        <Route exact path='/Favourite'>
-          {cookies['user'] ? <Favourite /> : <ErrorLogin />}
-        </Route>
-        <Route exact path='/Address'>
-          {cookies['user'] ? <Address /> : <ErrorLogin />}
-        </Route>
-        <Route exact path='/Payments'>
-          {cookies['user'] ? <Payments /> : <ErrorLogin />}
-        </Route>
-        <Route exact path='/Orders'>
-          {cookies['user'] ? <Orders /> : <ErrorLogin />}
-        </Route>
-        <Route exact path='/Money'>
-          {cookies['user'] ? <Money /> : <ErrorLogin />}
-        </Route>
-        <Route exact path='/OrdersDetails/:id/:id'>
-          {cookies['user'] ? <OrdersDetails /> : <ErrorLogin />}
-        </Route>
-        <Route exact path='/pageLoader'>
-          <PageLoader />
-        </Route>
-        <Route exact path='*'>
-          <Error />
-        </Route>
-      </Switch>
-      <Footer />
+      <ScrollToTop>
+        <Header />
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route exact path='/Products/:id'>
+            <Products />
+          </Route>
+          <Route exact path='/Products/:id/:id'>
+            <SingleProduct />
+          </Route>
+          <Route exact path='/cart'>
+            <Cart />
+          </Route>
+          <Route exact path='/About'>
+            <About />
+          </Route>
+          <Route exact path='/Rules'>
+            <Rules />
+          </Route>
+          <Route exact path='/Support'>
+            <Support />
+          </Route>
+          <Route exact path='/Dashboard'>
+            {cookies['user'] ? <Dashboard /> : <ErrorLogin />}
+          </Route>
+          <Route exact path='/Profile'>
+            {cookies['user'] ? <Profile /> : <ErrorLogin />}
+          </Route>
+          <Route exact path='/Favourite'>
+            {cookies['user'] ? <Favourite /> : <ErrorLogin />}
+          </Route>
+          <Route exact path='/Address'>
+            {cookies['user'] ? <Address /> : <ErrorLogin />}
+          </Route>
+          <Route exact path='/Payments'>
+            {cookies['user'] ? <Payments /> : <ErrorLogin />}
+          </Route>
+          <Route exact path='/Orders'>
+            {cookies['user'] ? <Orders /> : <ErrorLogin />}
+          </Route>
+          <Route exact path='/Money'>
+            {cookies['user'] ? <Money /> : <ErrorLogin />}
+          </Route>
+          <Route exact path='/OrdersDetails/:id/:id'>
+            {cookies['user'] ? <OrdersDetails /> : <ErrorLogin />}
+          </Route>
+          <Route exact path='/pageLoader'>
+            <PageLoader />
+          </Route>
+          <Route exact path='*'>
+            <Error />
+          </Route>
+        </Switch>
+        <Footer />
+      </ScrollToTop>
     </Router>
   )
 }

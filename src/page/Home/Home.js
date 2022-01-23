@@ -140,7 +140,13 @@ const Home = () => {
                     alt='people'
                   />
                   <div className='mt-3'>
-                    <h4 style={{ fontWeight: 'bolder', color: '#FF8333' }}>
+                    <h4
+                      style={{
+                        fontWeight: 'bolder',
+                        color: '#FF8333',
+                        direction: 'rtl',
+                      }}
+                    >
                       {data && data.thirdTitle}
                     </h4>
                     <h5
@@ -168,7 +174,13 @@ const Home = () => {
                     alt='bread'
                   />
                   <div className='mt-3'>
-                    <h4 style={{ fontWeight: 'bolder', color: '#FF8333' }}>
+                    <h4
+                      style={{
+                        fontWeight: 'bolder',
+                        color: '#FF8333',
+                        direction: 'rtl',
+                      }}
+                    >
                       {data && data.secondTitle}
                     </h4>
                     <h5
@@ -194,7 +206,13 @@ const Home = () => {
                     alt='task'
                   />
                   <div className='mt-3'>
-                    <h4 style={{ fontWeight: 'bolder', color: '#FF8333' }}>
+                    <h4
+                      style={{
+                        fontWeight: 'bolder',
+                        color: '#FF8333',
+                        direction: 'rtl',
+                      }}
+                    >
                       {data && data.firstTitle}
                     </h4>
                     <h5

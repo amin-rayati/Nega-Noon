@@ -5,14 +5,24 @@ import React, {
   useRef,
   useCallback,
   useMemo,
-  Polygon,
 } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import {
+  Polygon,
+  Map,
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+} from 'react-leaflet'
+
+import axios from 'axios'
 import 'leaflet/dist/leaflet.css'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 import { Icon } from 'leaflet'
 import { useProjectContext } from '../context/ProjectProvider'
+import { Polygons } from './MyMap'
+import { useCookies } from 'react-cookie'
 
 const zoom = 15
 function DisplayPosition({ map }) {
@@ -45,7 +55,6 @@ function DisplayPosition({ map }) {
     ></Marker>
   )
 }
-
 function EditMap({ lat, long }) {
   const [map, setMap] = useState(null)
 
@@ -63,6 +72,7 @@ function EditMap({ lat, long }) {
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
         {map ? <DisplayPosition map={map} /> : null}
+        <Polygons />
       </MapContainer>
     ),
     [map]

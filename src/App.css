@@ -87,6 +87,9 @@
   right: 15%;
   animation-delay: 0.3s;
 }
+.Adslider {
+  width: 75% !important ;
+}
 
 @media only screen and (min-width: 1200px) and (max-width: 1250px) {
   .nav-font {
@@ -96,8 +99,8 @@
 @media only screen and (min-width: 1200px) {
   .sliderText {
     position: relative !important;
-    top: -410px !important;
-    left: 230px !important;
+    top: -535px !important;
+    left: 260px !important;
   }
   .logo-size-mobile {
     width: 10% !important;
@@ -110,14 +113,39 @@
     width: 24% !important;
   }
 }
-
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
   .product-box-width {
     width: 46% !important;
   }
 }
-.Adslider {
-  width: 75% !important ;
+
+@media only screen and (max-width: 1400px) {
+  .sliderText {
+    position: relative !important;
+    top: -500px !important;
+    left: 255px !important;
+  }
+  .header-title-font {
+    font-weight: bolder !important;
+    font-size: 30px !important;
+  }
+  .header-detail-font {
+    font-size: 15px !important;
+  }
+}
+@media only screen and (max-width: 1300px) {
+  .sliderText {
+    position: relative !important;
+    top: -450px !important;
+    left: 245px !important;
+  }
+  .header-title-font {
+    font-weight: bolder !important;
+    font-size: 30px !important;
+  }
+  .header-detail-font {
+    font-size: 15px !important;
+  }
 }
 @media only screen and (max-width: 1199px) {
   .Adslider {
@@ -148,26 +176,43 @@
   }
   .sliderText {
     position: relative !important;
-    top: -360px !important;
-    left: 150px !important;
+    top: -550px !important;
+    left: 260px !important;
   }
   .header-title-font {
     font-weight: bolder !important;
     font-size: 30px !important;
   }
+  .header-detail-font {
+    font-size: 15px !important;
+  }
+}
+@media only screen and (max-width: 1050px) {
+  .sliderText {
+    position: relative !important;
+    top: -500px !important;
+    left: 260px !important;
+  }
+  .header-title-font {
+    font-weight: bolder !important;
+    font-size: 28px !important;
+  }
+  .header-detail-font {
+    font-size: 14px !important;
+  }
 }
 @media only screen and (max-width: 992px) {
   .sliderText {
     position: relative !important;
-    top: -300px !important;
-    left: 140px !important;
+    top: -400px !important;
+    left: 170px !important;
   }
   .header-title-font {
     font-weight: bolder !important;
-    font-size: 20px !important;
+    font-size: 26px !important;
   }
   .header-detail-font {
-    font-size: 15px !important;
+    font-size: 13px !important;
   }
   .logo-size-mobile {
     width: 15% !important;
@@ -220,20 +265,6 @@
   }
   .cart-btn-flex {
     flex-flow: wrap-reverse !important;
-  }
-}
-@media only screen and (max-width: 992px) {
-  .sliderText {
-    position: relative !important;
-    top: -270px !important;
-    left: 140px !important;
-  }
-  .header-title-font {
-    font-weight: bolder !important;
-    font-size: 18px !important;
-  }
-  .header-detail-font {
-    font-size: 13px !important;
   }
 }
 @media only screen and (min-width: 992px) {
@@ -289,15 +320,15 @@
 @media only screen and (max-width: 768px) {
   .sliderText {
     position: relative !important;
-    top: -210px !important;
-    left: 110px !important;
+    top: -325px !important;
+    left: 145px !important;
   }
   .header-title-font {
     font-weight: bolder !important;
-    font-size: 17px !important;
+    font-size: 24px !important;
   }
   .header-detail-font {
-    font-size: 12px !important;
+    font-size: 11px !important;
   }
   .sabad-kharid-position {
     position: relative !important;
@@ -351,15 +382,15 @@
 @media only screen and (max-width: 600px) {
   .sliderText {
     position: relative !important;
-    top: -200px !important;
+    top: -270px !important;
     left: 100px !important;
   }
   .header-title-font {
     font-weight: bolder !important;
-    font-size: 16px !important;
+    font-size: 22px !important;
   }
   .header-detail-font {
-    font-size: 11px !important;
+    font-size: 10px !important;
   }
 }
 @media only screen and (min-width: 576px) {
@@ -373,15 +404,15 @@
 @media only screen and (max-width: 576px) {
   .sliderText {
     position: relative !important;
-    top: -170px !important;
+    top: -240px !important;
     left: 90px !important;
   }
   .header-title-font {
     font-weight: bolder !important;
-    font-size: 16px !important;
+    font-size: 22px !important;
   }
   .header-detail-font {
-    font-size: 11px !important;
+    font-size: 9px !important;
   }
   .logo-size-mobile {
     width: 30% !important;
@@ -410,12 +441,12 @@
 @media only screen and (max-width: 450px) {
   .sliderText {
     position: relative !important;
-    top: -140px !important;
+    top: -210px !important;
     left: 80px !important;
   }
   .header-title-font {
     font-weight: bolder !important;
-    font-size: 14px !important;
+    font-size: 18px !important;
   }
   .header-detail-font {
     font-size: 9px !important;
@@ -467,12 +498,12 @@
 @media only screen and (max-width: 380px) {
   .sliderText {
     position: relative !important;
-    top: -120px !important;
-    left: 60px !important;
+    top: -170px !important;
+    left: 70px !important;
   }
   .header-title-font {
     font-weight: bolder !important;
-    font-size: 12px !important;
+    font-size: 15px !important;
   }
   .header-detail-font {
     font-size: 8px !important;
@@ -481,15 +512,15 @@
 @media only screen and (max-width: 320px) {
   .sliderText {
     position: relative !important;
-    top: -100px !important;
-    left: 50px !important;
+    top: -140px !important;
+    left: 60px !important;
   }
   .header-title-font {
     font-weight: bolder !important;
-    font-size: 10px !important;
+    font-size: 13px !important;
   }
   .header-detail-font {
-    font-size: 6px !important;
+    font-size: 7px !important;
   }
   .nav-mobile-p {
     padding: 0px 14px 0px 10px !important;
@@ -1169,4 +1200,18 @@ body {
 }
 .slick-next {
   display: none !important;
+}
+.enamad-style {
+  /* float: right; */
+  /* color: brown; */
+  background-image: url(http://negaclub.ir/namad.jpg);
+  background-position: center;
+  background-size: cover;
+  width: 150px;
+  height: 150px;
+  display: block;
+}
+.class-cart {
+  margin-top: 280px !important;
+  text-align: center !important;
 }

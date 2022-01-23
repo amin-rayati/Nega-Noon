@@ -1,6 +1,12 @@
 import { ReactChild, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  withRouter,
+  useLocation,
+} from 'react-router-dom'
+
 import { useProjectContext } from './context/ProjectProvider'
 import { Cookies, useCookies } from 'react-cookie'
 import axios from 'axios'
@@ -11,6 +17,16 @@ import Private from './page/sepratePage/Private'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-image-gallery/styles/css/image-gallery.css'
+function _ScrollToTop(props) {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  return props.children
+}
+export const ScrollToTop = withRouter(_ScrollToTop)
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['user'])
@@ -31,16 +47,7 @@ function App() {
       cityModalShow()
     }
   }
-  function ScrollToTop() {
-    const { pathname } = useLocation()
-    const activePath = pathname.split('2')
 
-    useEffect(() => {
-      window.scrollTo(0, 0)
-    }, [pathname])
-
-    return null
-  }
   const getIndividualInfo = () => {
     axios
       .post(
@@ -65,15 +72,14 @@ function App() {
   }
 
   return (
-    <>
+    <div>
       <Router>
-        <ScrollToTop />
         <Switch>
           <Route path='/callback' component={Private} />
           <Route path='/' component={Public} />
         </Switch>
       </Router>
-    </>
+    </div>
   )
 }
 

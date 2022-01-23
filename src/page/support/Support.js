@@ -3,6 +3,7 @@ import Bread from '../../assets/img/bread.png'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import Loading from '../../component/Loading/LoginLoading'
+import Loading1 from '../../component/Loading/Loading'
 import PageLoader from '../PageLoader/PageLoader'
 import { Helmet } from 'react-helmet'
 import Fade from '@mui/material/Fade'
@@ -99,7 +100,7 @@ const Support = () => {
     getAllData()
   }, [])
   if (!data) {
-    return <Loading />
+    return <Loading1 />
   } else {
     return (
       <Fade

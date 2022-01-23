@@ -13,6 +13,7 @@ import PageLoader from '../PageLoader/PageLoader'
 import Loader from '../../component/Loading/LoginLoading'
 import Breadcrump from '../../component/BreadCrump/BreadCrumpDashboard'
 import { Helmet } from 'react-helmet'
+import gif from '../../assets/img/logo.gif'
 
 const Dashboard = () => {
   const { userData, setUserData } = useProjectContext()
@@ -39,6 +40,8 @@ const Dashboard = () => {
   const [coponCode, setCoponCode] = useState(
     userData ? userData['refer_code'] : ''
   )
+
+  const [image, setImage] = useState(userData ? userData['avatar'] : '')
 
   const onDrop = async (acceptedFiles) => {
     if (profileImg.length < 1) {
@@ -157,6 +160,7 @@ const Dashboard = () => {
       setLname(userData['customerLastName'])
       setgender(userData['customerGender'])
       setCoponCode(userData['refer_code'])
+      setImage(userData['avatar'])
     }
   }, [userData])
 
@@ -315,7 +319,8 @@ const Dashboard = () => {
               boxShadow: '0px 10px 10px 0px #e7e7e7',
             }}
           >
-            <Dropzone onDrop={onDrop} accept='image/png,image/jpeg,image/jpg'>
+            <img src={gif} alt={gif} style={{ width: '70%', margin: '20px' }} />
+            {/* <Dropzone onDrop={onDrop} accept='image/png,image/jpeg,image/jpg'>
               {({ getRootProps, getInputProps }) => (
                 <div
                   style={{
@@ -354,11 +359,11 @@ const Dashboard = () => {
                   </div>
                 </div>
               )}
-            </Dropzone>
-
+            </Dropzone> */}
+            {/* 
             <div className='mt-3' style={{ textAlign: '-webkit-center' }}>
               <h6 style={{ fontSize: '18px' }}>عکس پروفایل</h6>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

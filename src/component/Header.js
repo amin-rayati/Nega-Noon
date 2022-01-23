@@ -100,6 +100,7 @@ const Header = () => {
         padding: '50px',
         boxShadow: 'rgb(225 225 225 / 50%) 0px 0px 12px 12px',
         zIndex: '999',
+        width: '-webkit-fill-available',
       }}
     >
       <img src={logo} className='logo-size-mobile ' alt='logo' />
