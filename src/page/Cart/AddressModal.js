@@ -459,7 +459,7 @@ export const AddressModal = () => {
                               background: 'white',
                               border: '1px solid #c9c1c1',
                               borderRadius: '10px  0 0 10px',
-                              marginTop: '16px',
+                              marginTop: '14px',
                               width: '20%',
                               textAlign: 'center',
                               borderRight: 'none',
