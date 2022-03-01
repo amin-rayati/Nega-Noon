@@ -1,277 +1,292 @@
-import { React, useState, useEffect } from 'react'
-import main from '../../assets/img/main.png'
-import slogan from '../../assets/img/slogan.png'
-import bread from '../../assets/img/bread.png'
-import task from '../../assets/img/task.png'
-import people from '../../assets/img/people.png'
-import CatSlider from './CatSlider'
-import AdSlider from './AdSlider'
-import FavouriteProductsSlider from './FavouriteProductsSlider'
-import map from '../../assets/img/map.png'
-import sabad from '../../assets/img/sabad.png'
-import iconBread from '../../assets/img/iconBread.png'
-import CartIcon from '../../component/CartIcon'
-import PageLoader from '../PageLoader/PageLoader'
-import { Helmet } from 'react-helmet'
-import Loading from '../../component/Loading/Loading'
-import Fade from '@mui/material/Fade'
+import { React, useState } from 'react'
+import MainSlider from '../../component/Slider/MainSlider'
+import DoreSlider from '../../component/Slider/DoreSlider'
+import ServiceSlider from '../../component/Slider/ServiceSlider'
+import MojavezSlider from '../../component/Slider/MojavezSlider'
+import logo from '../../assets/Img/logo.jpg'
+import ax4 from '../../assets/Img/ax4.jpg'
+import footer from '../../assets/Img/footer.PNG'
+// import { BsFillTelephoneFill } from 'react-icons/bs'
 
 const Home = () => {
-  const [data, setData] = useState()
-  const [area, setArea] = useState()
-  const [checked, setChecked] = useState(false)
-  const getAllData = async () => {
-    try {
-      const rawResponse = await fetch(
-        'https://meyt.neganoon.ir/admin/MiddleInfos/API/_getMiddleInfos?token=test',
-        {
-          method: 'POST',
-          headers: new Headers({
-            'Content-Type': 'application/x-www-form-urlencoded',
-            token: 'test',
-          }),
-          body: JSON.stringify({
-            token: 'test',
-          }),
-        }
-      )
-      const content = await rawResponse.json()
-
-      if (content.isDone) {
-        setData(content.data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const getAllArea = async () => {
-    try {
-      const rawResponse = await fetch(
-        'https://meyt.neganoon.ir/admin/MiddleInfos/API/_getCoveredAreas?token=test',
-        {
-          method: 'POST',
-          headers: new Headers({
-            'Content-Type': 'application/x-www-form-urlencoded',
-            token: 'test',
-          }),
-          body: JSON.stringify({
-            token: 'test',
-          }),
-        }
-      )
-      const content = await rawResponse.json()
-
-      if (content.isDone) {
-        setArea(content.data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getAllData()
-    getAllArea()
-  }, [])
-
-  if (!data) {
-    return (
-      <>
-        <Loading />
-      </>
-    )
-  } else {
-    return (
-      <Fade
-        in={true}
-        style={{ transformOrigin: '0 0 0' }}
-        {...(true ? { timeout: 2000 } : {})}
-      >
-        <div>
-          <AdSlider />
-          <div
-            className='w-75 mx-auto '
-            style={{ justifyContent: 'center', marginTop: '170px' }}
+  return (
+    <>
+      <div>
+        <div className='d-flex mx-5 my-3' style={{ justifyContent: 'center' }}>
+          <h5
+            className='mx-5 d-lg-block d-md-block d-sm-none d-none'
+            style={{ marginTop: '13px' }}
           >
-            <Helmet>
-              <meta charSet='utf-8' />
-              <title>نگانون </title>
-            </Helmet>
+            جستجو
+          </h5>
+          <button
+            style={{
+              outline: 'none',
+              border: 'none',
+              color: 'white',
+              backgroundColor: '#161f3c',
+              padding: '0px 50px',
+            }}
+            className='searchBtn'
+          >
+            جستجو
+          </button>
+          <input
+            type='text'
+            placeholder='عنوان مورد نظر را جستجو کنید...'
+            style={{
+              border: 'none',
+              outline: 'none',
+              width: '70%',
+              height: '50px',
+              boxShadow: 'inset 0px 1px 4px -1px rgb(0 0 0 / 45%)',
+              direction: 'rtl',
+              padding: '20px',
+            }}
+          />
+        </div>
+      </div>
+      <MainSlider />
+      <div className='my-5 py-5 px-1' style={{ backgroundColor: '#eff2f9' }}>
+        <h4
+          style={{ color: 'black', textAlign: 'center', fontWeight: 'bolder' }}
+        >
+          دوره های پیشنهادی
+        </h4>
+        <DoreSlider />
+      </div>
 
-            <div style={{ textAlign: '-webkit-center', marginTop: '150px' }}>
-              <CatSlider />
+      <div className='my-5 py-5  px-1'>
+        <h4
+          style={{ color: 'black', textAlign: 'center', fontWeight: 'bolder' }}
+        >
+          خدمات ما
+        </h4>
+        <ServiceSlider />
+      </div>
+
+      <div className='my-5 py-5 px-1' style={{ backgroundColor: '#eff2f9' }}>
+        <h4
+          style={{ color: 'black', textAlign: 'center', fontWeight: 'bolder' }}
+        >
+          مشتریان ما
+        </h4>
+        <div
+          className='mx-5 my-5 p-4'
+          style={{
+            backgroundColor: '#fff',
+            boxShadow: 'rgb(0 0 0 / 50%) 0px -3px 6px -5px',
+            borderRadius: '10px',
+          }}
+        >
+          <div className='row'>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
             </div>
-            <h2
-              className='mt-5'
-              style={{
-                fontWeight: 'bolder',
-                cursor: 'pointer',
-                color: '#ff8334',
-                textAlign: 'center',
-              }}
-            >
-              سفارش آنلاین
-            </h2>
-
-            <div
-              className='mt-5 py-5'
-              style={{ background: '#FAFAFA', textAlign: 'center' }}
-            >
-              <h2
-                className='mt-5'
-                style={{ fontWeight: 'bolder', cursor: 'pointer' }}
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
               >
-                {data && data.mainTitle}
-              </h2>
-              <h5
-                className='mt-3'
-                style={{ cursor: 'pointer', fontSize: '15px' }}
-              >
-                {data && data.mainText}
-              </h5>
-              <div className='row my-5 justify-content-center'>
-                <div
-                  className='col-lg-3 col-md-10 col-sm-10 col-10 mt-3 mx-3'
-                  style={{ cursor: 'pointer' }}
-                >
-                  <img
-                    src={data && data.thirdImage}
-                    style={{ width: '40%' }}
-                    alt='people'
-                  />
-                  <div className='mt-3'>
-                    <h4
-                      style={{
-                        fontWeight: 'bolder',
-                        color: '#FF8333',
-                        direction: 'rtl',
-                      }}
-                    >
-                      {data && data.thirdTitle}
-                    </h4>
-                    <h5
-                      className='mt-2 three-grid-font'
-                      style={{
-                        textAlign: 'justify',
-                        direction: 'rtl',
-                        lineHeight: '30px',
-                        fontSize: '15px',
-                      }}
-                    >
-                      {data && data.thirdText}
-                    </h5>
-                  </div>
-                </div>
-                <div
-                  className='col-lg-3 col-md-10 col-sm-10 col-10 mx-3 mt-3 box-border'
-                  style={{
-                    cursor: 'pointer',
-                  }}
-                >
-                  <img
-                    src={data && data.secondImage}
-                    style={{ width: '40%' }}
-                    alt='bread'
-                  />
-                  <div className='mt-3'>
-                    <h4
-                      style={{
-                        fontWeight: 'bolder',
-                        color: '#FF8333',
-                        direction: 'rtl',
-                      }}
-                    >
-                      {data && data.secondTitle}
-                    </h4>
-                    <h5
-                      className='mt-2 three-grid-font'
-                      style={{
-                        textAlign: 'justify',
-                        direction: 'rtl',
-                        lineHeight: '30px',
-                        fontSize: '15px',
-                      }}
-                    >
-                      {data && data.secondText}
-                    </h5>
-                  </div>
-                </div>
-                <div
-                  className='col-lg-3 col-md-10 col-sm-10 col-10 mt-3 mx-3'
-                  style={{ cursor: 'pointer' }}
-                >
-                  <img
-                    src={data && data.firstImage}
-                    style={{ width: '40%' }}
-                    alt='task'
-                  />
-                  <div className='mt-3'>
-                    <h4
-                      style={{
-                        fontWeight: 'bolder',
-                        color: '#FF8333',
-                        direction: 'rtl',
-                      }}
-                    >
-                      {data && data.firstTitle}
-                    </h4>
-                    <h5
-                      className='mt-2 three-grid-font'
-                      style={{
-                        textAlign: 'justify',
-                        direction: 'rtl',
-                        lineHeight: '30px',
-                        fontSize: '15px',
-                      }}
-                    >
-                      {data && data.firstText}
-                    </h5>
-                  </div>
-                </div>
-              </div>
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
             </div>
-
-            <div className='mt-5'>
-              <h5
-                style={{
-                  textAlign: 'right',
-                  fontSize: '25px',
-                  fontWeight: 'bolder',
-                }}
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
               >
-                محصولات پرطرفدار
-              </h5>
-
-              <FavouriteProductsSlider />
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
             </div>
-
-            <div className='mt-5' style={{ textAlign: '-webkit-center' }}>
-              <h5
-                style={{
-                  textAlign: 'center',
-                  fontSize: '25px',
-                  fontWeight: 'bolder',
-                }}
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
               >
-                مناطق تحت پوشش نگانون
-              </h5>
-              <img
-                className='mt-4'
-                src={area && area}
-                alt='map'
-                style={{
-                  width: '70%',
-                  height: '50%',
-                  borderRadius: '15px',
-                  cursor: 'pointer',
-                }}
-              />
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
+            </div>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
+            </div>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
+            </div>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
+            </div>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
+            </div>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
+            </div>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
+            </div>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
+            </div>
+            <div className='col-lg-2 col-md-4 col-sm-4 col-12 text-center mt-2'>
+              <img alt='logo' src={logo} style={{ width: '70%' }} />
+              <p
+                className='mt-2'
+                style={{ direction: 'rtl', textAlign: 'justify' }}
+              >
+                کالج اورست یکی از بزرگترین مجموعه های آموزش ای تی است
+              </p>
             </div>
           </div>
         </div>
-      </Fade>
-    )
-  }
+        <div style={{ textAlign: 'center' }}>
+          <button
+            style={{
+              borderRadius: '10px',
+              padding: '10px 15px ',
+              backgroundColor: '#f1a314',
+              border: 'none',
+            }}
+          >
+            مشاهده بیشتر
+          </button>
+        </div>
+      </div>
+
+      <div className='my-5 py-5  px-1'>
+        <h4
+          style={{ color: 'black', textAlign: 'center', fontWeight: 'bolder' }}
+        >
+          مجوز های ما
+        </h4>
+        <MojavezSlider />
+        <div style={{ textAlign: 'center' }}>
+          <button
+            style={{
+              borderRadius: '10px',
+              padding: '10px 15px ',
+              backgroundColor: '#f1a314',
+              border: 'none',
+            }}
+          >
+            مشاهده بیشتر
+          </button>
+        </div>
+      </div>
+
+      <div className='my-5 py-5 px-5' style={{ backgroundColor: '#eff2f9' }}>
+        <h4
+          style={{ color: 'black', textAlign: 'right', fontWeight: 'bolder' }}
+        >
+          درخواست مشاوره
+        </h4>
+
+        <div className='row' style={{ justifyContent: 'space-evenly' }}>
+          <div className='col-lg-4 order-lg-1 col-md-10 order-md-2 col-sm-10 order-sm-2 co-10 order-2 mt-4  '>
+            <div
+              style={{
+                backgroundColor: '#fff',
+                borderRadius: '15px',
+                padding: '50px  25px',
+                textAlign: 'right',
+              }}
+            >
+              <p style={{ fontWeight: 'bolder' }}>
+                شماره موبایل خود را وارد کنید
+              </p>
+              <div className='text-center'>
+                <input
+                  type='text'
+                  placeholder='09** *** ** **'
+                  style={{
+                    border: 'none',
+                    borderRadius: '15px',
+                    boxShadow: '0px 0px 8px -2px rgb(0 0 0 / 50%)',
+                    width: '70%',
+                    height: '40px',
+                    outline: 'none',
+                    padding: '20px',
+                  }}
+                />
+              </div>
+
+              <div className='mt-3' style={{ textAlign: 'center' }}>
+                <button
+                  style={{
+                    borderRadius: '10px',
+                    padding: '10px 40px ',
+                    backgroundColor: '#f1a314',
+                    border: 'none',
+                    width: '70%',
+                  }}
+                >
+                  ثبت درخواست
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className='col-lg-4 order-lg-2 col-md-10 order-md-1 col-sm-10 order-sm-1 co-10 order-1 mt-4  '>
+            <img
+              src={ax4}
+              alt='ax4'
+              style={{ width: '100%', borderRadius: '15px' }}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default Home

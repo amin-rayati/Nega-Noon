@@ -5,11 +5,12 @@ import { ImCross } from 'react-icons/im'
 import axios from 'axios'
 import Loading from '../Loading/LoginLoading'
 import Swal from 'sweetalert2'
-import { Button } from 'react-bootstrap'
+import { button } from 'react-bootstrap'
 import { Cookies, useCookies } from 'react-cookie'
 import Grow from '@mui/material/Grow'
 import TextField from '@mui/material/TextField'
 import { makeStyles } from '@material-ui/core/styles'
+import { LinkContainer } from 'react-router-bootstrap'
 const mobileUrl =
   'https://meyt.neganoon.ir/admin/Customers/API/_startLoginRegister?token=test'
 
@@ -104,7 +105,7 @@ const Login = () => {
       Swal.fire({
         type: 'error',
         text: 'لطفا شماره تماس را درست وارد کنید',
-        confirmButtonText: 'فهمیدم',
+        confirmbuttonText: 'فهمیدم',
       })
       return false
     }
@@ -179,13 +180,13 @@ const Login = () => {
           Swal.fire({
             type: 'success',
             text: 'کد تایید ارسال شد',
-            confirmButtonText: 'فهمیدم',
+            confirmbuttonText: 'فهمیدم',
           })
         } else {
           Swal.fire({
             type: 'error',
             text: 'دوباره تلاش کنید',
-            confirmButtonText: 'فهمیدم',
+            confirmbuttonText: 'فهمیدم',
           })
         }
       })
@@ -200,7 +201,7 @@ const Login = () => {
       Swal.fire({
         type: 'error',
         text: 'تمام فیلد ها پر شود',
-        confirmButtonText: 'فهمیدم',
+        confirmbuttonText: 'فهمیدم',
         onAfterClose: () => {
           setLoading(false)
         },
@@ -237,7 +238,7 @@ const Login = () => {
             // Swal.fire({
             //   type: 'success',
             //   text: 'به نگانون خوش آمدید',
-            //   confirmButtonText: 'فهمیدم',
+            //   confirmbuttonText: 'فهمیدم',
             // })
             // loginModalClose()
             // setLoading(false)
@@ -245,7 +246,7 @@ const Login = () => {
             Swal.fire({
               type: 'error',
               text: response.data.data,
-              confirmButtonText: 'فهمیدم',
+              confirmbuttonText: 'فهمیدم',
             })
           }
 
@@ -345,7 +346,7 @@ const Login = () => {
           Swal.fire({
             type: 'error',
             text: 'دوباره تلاش کنید',
-            confirmButtonText: 'فهمیدم',
+            confirmbuttonText: 'فهمیدم',
           })
         }
         setLoading(false)
@@ -366,9 +367,9 @@ const Login = () => {
       Swal.fire({
         type: 'error',
         text: 'تمام فیلد ها پر شود',
-        confirmButtonText: 'فهمیدم',
-        showConfirmButton: false,
-        showCloseButton: true,
+        confirmbuttonText: 'فهمیدم',
+        showConfirmbutton: false,
+        showClosebutton: true,
         onAfterClose: () => {
           setLoading(false)
         },
@@ -399,14 +400,14 @@ const Login = () => {
               Swal.fire({
                 type: 'error',
                 text: response.data.data['message'],
-                confirmButtonText: 'فهمیدم',
+                confirmbuttonText: 'فهمیدم',
               })
             }
           } else {
             Swal.fire({
               type: 'error',
               text: 'دوباره تلاش کنید',
-              confirmButtonText: 'فهمیدم',
+              confirmbuttonText: 'فهمیدم',
             })
           }
           setLoading(false)
@@ -428,7 +429,7 @@ const Login = () => {
       Swal.fire({
         type: 'error',
         text: 'تمام فیلد ها پر شود',
-        confirmButtonText: 'فهمیدم',
+        confirmbuttonText: 'فهمیدم',
         onAfterClose: () => {
           setLoading(false)
         },
@@ -457,7 +458,7 @@ const Login = () => {
             Swal.fire({
               type: 'success',
               text: 'به نگانون خوش آمدید',
-              confirmButtonText: 'فهمیدم',
+              confirmbuttonText: 'فهمیدم',
             })
             getIndividualInfo(e)
             setIsCodeSent(true)
@@ -468,7 +469,7 @@ const Login = () => {
             Swal.fire({
               type: 'error',
               text: 'کد معرف نامعتبر',
-              confirmButtonText: 'فهمیدم',
+              confirmbuttonText: 'فهمیدم',
             })
           }
           setLoading(false)
@@ -490,7 +491,7 @@ const Login = () => {
       Swal.fire({
         type: 'error',
         text: 'تمام فیلد ها پر شود',
-        confirmButtonText: 'فهمیدم',
+        confirmbuttonText: 'فهمیدم',
         onAfterClose: () => {
           setLoading(false)
         },
@@ -518,7 +519,7 @@ const Login = () => {
             Swal.fire({
               type: 'success',
               text: 'به نگانون خوش آمدید',
-              confirmButtonText: 'فهمیدم',
+              confirmbuttonText: 'فهمیدم',
               onAfterClose: () => {
                 loginModalClose()
                 setLoading(false)
@@ -528,7 +529,7 @@ const Login = () => {
             Swal.fire({
               type: 'error',
               text: response.data.data,
-              confirmButtonText: 'فهمیدم',
+              confirmbuttonText: 'فهمیدم',
             })
           }
         })
@@ -578,19 +579,49 @@ const Login = () => {
 
   return (
     <>
-      <Modal show={loginModal} onHide={loginModalClose}>
+      <Modal show={loginModal} onHide={loginModalClose} size={'lg'}>
         <Modal.Header style={{ justifyContent: 'center' }}>
-          <Modal.Title style={{ fontWeight: 'bolder' }}>
-            ورود به سایت
+          <Modal.Title style={{ fontWeight: 'bolder', borderBottom: 'none' }}>
+            ورود
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <div className='btn-modal'>
+          <button
+            onClick={loginModalClose}
+            style={{
+              border: 'none',
+              borderRadius: '15px',
+              fontSize: '12px',
+              padding: '10px 20px',
+              backgroundColor: '#fff',
+              boxShadow: 'inset -1px -2px 11px -5px rgba(0 0 0/50%)',
+            }}
+            className='mx-2'
+          >
+            بازگشت
+          </button>
+          <LinkContainer
+            style={{
+              border: 'none',
+              borderRadius: '15px',
+              fontSize: '12px',
+              padding: '10px 20px',
+              backgroundColor: '#fff',
+              boxShadow: 'inset -1px -2px 11px -5px rgba(0 0 0/50%)',
+            }}
+            className='mx-2'
+            to='/'
+          >
+            <button onClick={loginModalClose}>خانه</button>
+          </LinkContainer>
+        </div>
+        <Modal.Body style={{ width: '50%', margin: 'auto' }}>
           <Grow
             in={loginModal}
             timeout={500}
             style={{ transformOrigin: '0 0 0' }}
           >
-            <div className='row mx-0 mt-2'>
+            <div className='row mx-0 mt-2' style={{ justifyContent: 'center' }}>
               <input
                 onChange={handlePhoneChange}
                 onKeyDown={handleKeyDownSendMobile}
@@ -600,9 +631,9 @@ const Login = () => {
                 pattern='[0-9]{5}[-][0-9]{7}[-][0-9]{1}'
                 type='text'
                 title='Ten digits code'
-                placeHolder='شماره موبایل'
+                placeHolder='09** *** ** **'
                 style={{
-                  textAlign: 'right',
+                  textAlign: 'left',
                   borderRadius: '0.45rem',
                   border: '1px solid #0000004f',
                   height: '40px',
@@ -621,7 +652,10 @@ const Login = () => {
                 timeout={500}
                 style={{ transformOrigin: '0 0 0' }}
               >
-                <div className='row mx-0 mt-5'>
+                <div
+                  className='row mx-0 mt-5'
+                  style={{ justifyContent: 'center' }}
+                >
                   <input
                     onChange={handleCodeChange}
                     onKeyDown={handleKeyDownSendCode}
@@ -632,13 +666,13 @@ const Login = () => {
                     title='Ten digits code'
                     placeHolder='کد تایید'
                     style={{
+                      textAlign: 'left',
                       borderRadius: '0.45rem',
                       border: '1px solid #0000004f',
                       height: '40px',
                       width: '100%',
                       outline: 'none',
                       background: 'white',
-                      textAlign: 'right',
                     }}
                   />
                 </div>
@@ -653,7 +687,10 @@ const Login = () => {
                 timeout={500}
                 style={{ transformOrigin: '0 0 0' }}
               >
-                <div className='row mx-0 mt-5'>
+                <div
+                  className='row mx-0 mt-5'
+                  style={{ justifyContent: 'center' }}
+                >
                   <input
                     onChange={handleCodeChange}
                     onKeyDown={handleKeyDownSendPass}
@@ -664,13 +701,13 @@ const Login = () => {
                     title='Ten digits code'
                     placeHolder='رمز عبور'
                     style={{
+                      textAlign: 'left',
                       borderRadius: '0.45rem',
                       border: '1px solid #0000004f',
                       height: '40px',
                       outline: 'none',
                       width: '100%',
                       background: 'white',
-                      textAlign: 'right',
                     }}
                   />
                 </div>
@@ -685,7 +722,10 @@ const Login = () => {
                 timeout={500}
                 style={{ transformOrigin: '0 0 0' }}
               >
-                <div className='row mx-0 mt-5'>
+                <div
+                  className='row mx-0 mt-5'
+                  style={{ justifyContent: 'center' }}
+                >
                   <input
                     onChange={handleCodeChange}
                     onKeyDown={handleKeyDownSendCode1}
@@ -702,7 +742,7 @@ const Login = () => {
                       width: '100%',
                       outline: 'none',
                       background: 'white',
-                      textAlign: 'right',
+                      textAlign: 'left',
                     }}
                   />
                 </div>
@@ -717,7 +757,10 @@ const Login = () => {
                 timeout={500}
                 style={{ transformOrigin: '0 0 0' }}
               >
-                <div className='row mx-0 mt-5'>
+                <div
+                  className='row mx-0 mt-5'
+                  style={{ justifyContent: 'center' }}
+                >
                   <input
                     onChange={handleNewPassChange}
                     onKeyDown={handleKeyDownSetNewpassword}
@@ -734,7 +777,7 @@ const Login = () => {
                       width: '100%',
                       outline: 'none',
                       background: 'white',
-                      textAlign: 'right',
+                      textAlign: 'left',
                     }}
                   />
                 </div>
@@ -744,13 +787,13 @@ const Login = () => {
 
           <div className='d-flex justify-content-between mt-4'>
             {resendcode ? (
-              <Button
+              <button
                 variant=' my-3 mr-3 '
-                className='login-btn '
+                className='login-btn'
                 onClick={resendCode}
               >
                 {!loading1 ? 'ارسال مجدد کد' : <Loading />}
-              </Button>
+              </button>
             ) : null}
             {coundown ? (
               <p className='text-left mt-auto'>
@@ -765,13 +808,13 @@ const Login = () => {
 
           <div className='d-flex justify-content-between mt-4'>
             {btnsetpass ? (
-              <Button
+              <button
                 variant=' my-3 mr-3 '
                 className='login-btn'
                 onClick={foregtpass}
               >
                 فراموشی رمز
-              </Button>
+              </button>
             ) : null}
             {/* {coundown ? (
               <p className='text-left mt-auto'>
@@ -786,59 +829,91 @@ const Login = () => {
         </Modal.Body>
         <Modal.Footer className='justify-content-center'>
           {btn ? (
-            <Button
+            <button
               variant=' my-3 mr-3 '
               className='login-btn px-3 hover-item p-2'
               onClick={sendMobile}
             >
               {!loading ? 'ورود/ثبت نام' : <Loading />}
-            </Button>
+            </button>
           ) : null}
 
           {btnRegister ? (
-            <Button
+            <button
               variant=' my-3 mr-3 '
               className='login-btn px-3 hover-item p-2'
               onClick={sendCode}
             >
               {!loading ? 'ورود/ثبت نام' : <Loading />}
-            </Button>
+            </button>
           ) : null}
 
           {btnLogin ? (
-            <Button
+            <button
               variant=' my-3 mr-3 '
               className='login-btn px-3 hover-item p-2'
               onClick={sendPass}
             >
               {!loading ? 'ورود/ثبت نام' : <Loading />}
-            </Button>
+            </button>
           ) : null}
           {btncode1 ? (
-            <Button
+            <button
               variant=' my-3 mr-3 '
               className='login-btn px-3 hover-item p-2'
               onClick={sendCode1}
             >
               {!loading ? 'ورود/ثبت نام' : <Loading />}
-            </Button>
+            </button>
           ) : null}
 
           {btnnewpass ? (
-            <Button
+            <button
               variant=' my-3 mr-3 '
               className='login-btn px-3 hover-item p-2'
               onClick={setNewpassword}
             >
               {!loading ? 'ورود/ثبت نام' : <Loading />}
-            </Button>
+            </button>
           ) : null}
         </Modal.Footer>
       </Modal>
-      <Modal show={registerModal} onHide={RegisterClose}>
+      <Modal show={registerModal} onHide={RegisterClose} size={'lg'}>
         <Modal.Header style={{ justifyContent: 'center' }}>
-          <Modal.Title>ثبت نام</Modal.Title>
+          <Modal.Title style={{ fontWeight: 'bolder', borderBottom: 'none' }}>
+            ثبت نام
+          </Modal.Title>
         </Modal.Header>
+        <div className='btn-modal'>
+          <button
+            onClick={loginModalClose}
+            style={{
+              border: 'none',
+              borderRadius: '15px',
+              fontSize: '12px',
+              padding: '10px 20px',
+              backgroundColor: '#fff',
+              boxShadow: 'inset -1px -2px 11px -5px rgba(0 0 0/50%)',
+            }}
+            className='mx-2'
+          >
+            بازگشت
+          </button>
+          <LinkContainer
+            style={{
+              border: 'none',
+              borderRadius: '15px',
+              fontSize: '12px',
+              padding: '10px 20px',
+              backgroundColor: '#fff',
+              boxShadow: 'inset -1px -2px 11px -5px rgba(0 0 0/50%)',
+            }}
+            className='mx-2'
+            to='/'
+          >
+            <button onClick={loginModalClose}>خانه</button>
+          </LinkContainer>
+        </div>
         <Modal.Body style={{ direction: 'rtl', textAlign: 'right' }}>
           <Grow
             in={registerModal}
@@ -846,165 +921,164 @@ const Login = () => {
             style={{ transformOrigin: '0 0 0' }}
           >
             <div className='row mx-0 '>
-              <input
-                onChange={handleNameChange}
-                value={name}
-                required
-                className='col-9 mt-3'
-                id='name'
-                type='text'
-                placeHolder='نام'
-                style={{
-                  borderRadius: '0.45rem',
-                  border: '1px solid #0000004f',
-                  height: '40px',
-                  width: '100%',
-                  outline: 'none',
-                  background: 'white',
-                }}
-              />
-            </div>
-          </Grow>
-
-          <Grow
-            in={registerModal}
-            timeout={700}
-            style={{ transformOrigin: '0 0 0' }}
-          >
-            <div className='row mx-0 mt-2'>
-              <input
-                onChange={handleLnameChange}
-                value={lastName}
-                required
-                className='col-9 mt-3'
-                id='lastname'
-                type='text'
-                placeHolder='نام خانوادگی'
-                style={{
-                  borderRadius: '0.45rem',
-                  border: '1px solid #0000004f',
-                  height: '40px',
-                  width: '100%',
-                  outline: 'none',
-                  background: 'white',
-                }}
-              />
-            </div>
-          </Grow>
-
-          <Grow
-            in={registerModal}
-            timeout={900}
-            style={{ transformOrigin: '0 0 0' }}
-          >
-            <div className='row mx-0 mt-2'>
-              <input
-                onChange={handlePasswordChange}
-                value={password}
-                required
-                className='col-9 mt-3'
-                id='lastname'
-                type='text'
-                placeHolder='رمز عبور'
-                style={{
-                  borderRadius: '0.45rem',
-                  border: '1px solid #0000004f',
-                  height: '40px',
-                  width: '100%',
-                  outline: 'none',
-                  background: 'white',
-                }}
-              />
-            </div>
-          </Grow>
-
-          <Grow
-            in={registerModal}
-            timeout={1100}
-            style={{ transformOrigin: '0 0 0' }}
-          >
-            <div className='row mx-0 mt-2'>
-              <input
-                onChange={handleLRefererChange}
-                value={Referer}
-                required
-                className='col-9 mt-3'
-                id='lastname'
-                type='text'
-                placeHolder='کد معرف'
-                style={{
-                  borderRadius: '0.45rem',
-                  border: '1px solid #0000004f',
-                  height: '40px',
-                  width: '100%',
-                  outline: 'none',
-                  background: 'white',
-                }}
-              />
-            </div>
-          </Grow>
-
-          <Grow
-            in={registerModal}
-            timeout={1300}
-            style={{ transformOrigin: '0 0 0' }}
-          >
-            <div className='row mx-0 mt-4' style={{ textAlign: 'end' }}>
-              <div
-                className='col-3 my-auto  text-right'
-                style={{ textAlign: 'right' }}
-              >
-                <label>جنسیت :</label>
+              <div className='col-lg-6 col-md-5 col-sm-10 col-10'>
+                <label for='name' style={{ direction: 'ltr', width: '35%' }}>
+                  {' '}
+                  : نام و نام خانوادگی
+                </label>
+                <input
+                  onChange={handleNameChange}
+                  value={name}
+                  required
+                  className='col-9 mt-3 mx-1'
+                  id='name'
+                  type='text'
+                  placeHolder='نام و نام خانوادگی'
+                  style={{
+                    borderRadius: '0.45rem',
+                    border: '1px solid #0000004f',
+                    height: '40px',
+                    width: '55%',
+                    outline: 'none',
+                    background: 'white',
+                    padding: '10px',
+                  }}
+                />
               </div>
-              <div className='row col-7 col-lg-9 col-md-8 col-sm-8  '>
-                <div className='col-6 col-lg-6 col-md-6 col-sm-6 text-right'>
-                  <label
-                    className='fontsize-sm '
-                    style={{ marginLeft: '15px' }}
-                  >
-                    خانم
-                  </label>
-                  <input
-                    onChange={handleGenderChange}
-                    value={gender}
-                    required
-                    type='radio'
-                    name='sex'
-                    className='sex text-start'
-                    value='2'
-                    style={{ textAlign: 'end' }}
-                  />
-                </div>
-                <div className='col-6 col-lg-6 col-md-6 col-sm-6 text-right'>
-                  <label
-                    className='fontsize-sm '
-                    style={{ marginLeft: '15px' }}
-                  >
-                    اقا
-                  </label>
-                  <input
-                    onChange={handleGenderChange}
-                    value={gender}
-                    required
-                    type='radio'
-                    name='sex'
-                    className='sex text-start'
-                    value='1'
-                    style={{ textAlign: 'end' }}
-                  />
-                </div>
+              <div className='col-lg-6 col-md-5 col-sm-10 col-10'>
+                <label for='names' style={{ direction: 'rtl', width: '35%' }}>
+                  {' '}
+                  نام سازمان یا شرکت :
+                </label>
+                <input
+                  onChange={handleLnameChange}
+                  value={lastName}
+                  required
+                  className='col-9 mt-3 mx-1'
+                  id='names'
+                  type='text'
+                  placeHolder='  نام سازمان یا شرکت '
+                  style={{
+                    borderRadius: '0.45rem',
+                    border: '1px solid #0000004f',
+                    height: '40px',
+                    width: '55%',
+                    outline: 'none',
+                    background: 'white',
+                    padding: '10px',
+                  }}
+                />
+              </div>
+              <div className='col-lg-6 col-md-5 col-sm-10 col-10'>
+                <label
+                  for='nameSemat'
+                  style={{ direction: 'rtl', width: '35%' }}
+                >
+                  {' '}
+                  سمت شما :
+                </label>
+                <input
+                  onChange={handleLnameChange}
+                  value={lastName}
+                  required
+                  className='col-9 mt-3 mx-1'
+                  id='nameSemat'
+                  type='text'
+                  placeHolder=' سمت شما '
+                  style={{
+                    borderRadius: '0.45rem',
+                    border: '1px solid #0000004f',
+                    height: '40px',
+                    width: '55%',
+                    outline: 'none',
+                    background: 'white',
+                    padding: '10px',
+                  }}
+                />
+              </div>
+              <div className='col-lg-6 col-md-5 col-sm-10 col-10'>
+                <label for='pass' style={{ direction: 'rtl', width: '35%' }}>
+                  {' '}
+                  رمز عبور :
+                </label>
+                <input
+                  onChange={handlePasswordChange}
+                  value={password}
+                  required
+                  className='col-9 mt-3 mx-1'
+                  id='pass'
+                  type='text'
+                  placeHolder='رمز عبور '
+                  style={{
+                    borderRadius: '0.45rem',
+                    border: '1px solid #0000004f',
+                    height: '40px',
+                    width: '55%',
+                    outline: 'none',
+                    background: 'white',
+                    padding: '10px',
+                  }}
+                />
+              </div>
+              <div className='col-lg-6 col-md-5 col-sm-10 col-10'>
+                <label for='state' style={{ direction: 'rtl', width: '35%' }}>
+                  {' '}
+                  استان :
+                </label>
+                <input
+                  onChange={handleLnameChange}
+                  value={lastName}
+                  required
+                  className='col-9 mt-3 mx-1'
+                  id='state'
+                  type='text'
+                  placeHolder=' استان'
+                  style={{
+                    borderRadius: '0.45rem',
+                    border: '1px solid #0000004f',
+                    height: '40px',
+                    width: '55%',
+                    outline: 'none',
+                    background: 'white',
+                    padding: '10px',
+                  }}
+                />
+              </div>
+              <div className='col-lg-6 col-md-5 col-sm-10 col-10'>
+                <label for='city' style={{ direction: 'rtl', width: '35%' }}>
+                  {' '}
+                  شهر :
+                </label>
+                <input
+                  onChange={handlePasswordChange}
+                  value={password}
+                  required
+                  className='col-9 mt-3 mx-1'
+                  id='city'
+                  type='text'
+                  placeHolder='شهر'
+                  style={{
+                    borderRadius: '0.45rem',
+                    border: '1px solid #0000004f',
+                    height: '40px',
+                    width: '55%',
+                    outline: 'none',
+                    background: 'white',
+                    padding: '10px',
+                  }}
+                />
               </div>
             </div>
           </Grow>
         </Modal.Body>
-        <Modal.Footer className='justify-content-center'>
-          <Button
+        <Modal.Footer className='justify-content-center my-4'>
+          <button
             variant=' my-3 mr-3 '
             className='login-btn'
             onClick={Register}
           >
             {!loading ? 'ورود/ثبت نام' : <Loading />}
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </>
